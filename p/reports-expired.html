@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reports - Received </title>
+    <title>Reports - Products with Expiration </title>
     <link rel="stylesheet" href="../css/lib/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../css/lib/bulma/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="../css/lib/w3css/v4/w3.css">
@@ -47,22 +47,15 @@
 
                             <br>
 
-                            <dates-selection
-                                @config-date-label="configDateLabel"
-                                @fetch-records = "fetchReceivedProducts"
-                            >
-                            </dates-selection>
-                            
-                            <br>
+                            <reports-expired-table
 
-                            <reports-received-table
-
-                                :data = "receivedProducts"
-                                :date-label = "dateLabel"
+                                :data = "expiredProducts"
                                 :user-data = "userData"
 
+                                @update-product-received = "updateProductReceived"
+
                             >
-                            </reports-received-table>
+                            </reports-expired-table>
 
                         </div>
                         <br><br>
@@ -87,9 +80,9 @@
 
     <script src="../js/components/layouts/header.js"></script>
     <script src="../js/components/layouts/sideNav.js"></script>
-    <script src="../js/components/reportsReceived/reportsReceivedTable.js"></script>
+    <script src="../js/components/reportsExpired/reportsExpiredTable.js"></script>
     
-    <script src="../js/instances/reportsReceived.js"></script>
+    <script src="../js/instances/reportsExpired.js"></script>
     
 
 </body>

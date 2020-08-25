@@ -18,20 +18,20 @@ $userId = $_SESSION['adi_user_id'];
 $returnValue = array();
 $returnValue["status"] = "ERROR";
 
-$product = $data['product'];
-
 try {
 
-	$results = $database->updateProduct($product, $userId);
+	$results = $database->demoteUser($data, $userId);
+
 	$returnValue["status"] = "SUCCESS";
-	$returnValue["message"] = $results;
+	$returnValue['message'] = $results;
+
 
 } 
 catch(PDOException $e){
-	$returnValue["status"] = "ERROR";
-	$returnValue['message'] = $e;
 
+	$returnValue['message'] = $e;
 }
+
 
 print_r(json_encode($returnValue));
 

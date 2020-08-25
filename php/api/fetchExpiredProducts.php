@@ -13,16 +13,13 @@ header('Content-Type: application/download; charset=utf-8');
 // decoding of post data //
 $data = json_decode(file_get_contents("php://input"), true);
 
-$userId = $_SESSION['adi_user_id'];
-
 $returnValue = array();
 $returnValue["status"] = "ERROR";
 
-$product = $data['product'];
-
 try {
 
-	$results = $database->updateProduct($product, $userId);
+
+	$results = $database->fetchExpiredProducts();
 	$returnValue["status"] = "SUCCESS";
 	$returnValue["message"] = $results;
 

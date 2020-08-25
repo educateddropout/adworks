@@ -15,6 +15,8 @@ var sc = new Vue({
 
 		productTypes : { 'value' : [1,2,3,4,5] } ,
 		stockTypes : { 'value' : [1,2,3] },
+        supplierTypes : { 'value' : [] },
+        supplierLib : {},
 
 		sortedBy : 2, // sorted by p type and name
 
@@ -27,6 +29,7 @@ var sc = new Vue({
 	mounted(){
 
 		this.fetchProducts();
+        this.fetchSuppliers();
 	},
 
 	computed: {
@@ -38,6 +41,7 @@ var sc = new Vue({
                 let searchHash = p.name;
 
                 return this.productTypes.value.includes(Number(p.product_type)) && 
+                        this.supplierTypes.value.includes(p.supplier_id) &&
                 		this.stockTypes.value.includes(segregateStocks(p.quantity)) &&
                 		searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
 
@@ -134,6 +138,30 @@ var sc = new Vue({
             });
 
         },
+
+        fetchSuppliers(){
+
+            let self = this;
+            axios.post('../php/api/fetchSuppliers.php',{
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                if(response.data.status == "SUCCESS"){
+                    self.supplierLib = response.data.message;
+
+                    response.data.message.forEach(function (s){
+                        self.supplierTypes.value.push(s.supplier_id);
+                    });
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        },
+
 	}
 
 });

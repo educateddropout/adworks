@@ -5,6 +5,7 @@ class QueryBuilder
 {
 
 	protected $pdo;
+	public $defaulPassword = "ampongdental";
 
 	public function __construct($pdo)
 
@@ -178,6 +179,25 @@ class QueryBuilder
 											ORDER BY r.last_modified DESC");
 
 		$transaction = $statement->execute([$archive,$dateFrom, $dateTo]);
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function fetchExpiredProducts(){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("SELECT r.received_id, r.transaction_id, r.product_id, p.name,
+												r.price, r.unit, r.quantity, r.expiration_date, r.last_modified, r.is_consumed,
+												r.last_modified_by, u.name as 'user_name'
+											FROM tbl_products_received r
+												LEFT JOIN tbl_products p ON p.product_id = r.product_id
+												LEFT JOIN tbl_users u ON u.user_id = r.last_modified_by
+											WHERE r.archive = ? AND r.expiration_date IS NOT NULL
+											ORDER BY r.last_modified DESC");
+
+		$transaction = $statement->execute([$archive]);
 		
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -413,6 +433,26 @@ class QueryBuilder
 
 	}
 
+	public function updateProductConsumed($productReceivedId, $userId, $consumedCtr){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 0; // active 
+		$is_consumed = 'Y';
+		if($consumedCtr == 'Y') $is_consumed = 'N';
+
+		$statement = $this->pdo->prepare("UPDATE tbl_products_received
+											SET last_modified = ?, last_modified_by = ?,
+											is_consumed = ?
+											WHERE received_id = ?");
+
+		$statement->execute([$currentDate,$userId, $is_consumed, $productReceivedId]);
+
+		return $statement->rowCount();
+
+
+	}
+
 	public function archiveProduct($id, $userId){
 
 		
@@ -524,16 +564,159 @@ class QueryBuilder
 
 		
 		$currentDate = date("Y-m-d H:i:s");
-		$archive = 0; // active
 
-		$statement = $this->pdo->prepare("UPDATE users
+		$statement = $this->pdo->prepare("UPDATE tbl_users
 											SET password = ?, last_modified = ?, last_modified_by = ?
 											WHERE user_id = ?");
 
-		$statement->execute([$this->defaulPassword,$currentDate,$userId,$data['userId'], $archive]);
+		$statement->execute([md5($this->defaulPassword),$currentDate,$userId,$data['userId']]);
 
 		return $statement->rowCount();
 
+
+	}
+
+	public function changePassword($password, $userId){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET password = ?
+											WHERE user_id = ?");
+
+		$statement->execute([md5($password),$userId]);
+
+		return $statement->rowCount();
+		//return $statement->errorInfo();
+
+	}
+
+	public function checkCurrentPassword($password, $userId){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("SELECT id, name, user_type
+											FROM tbl_users
+											WHERE password = ? and user_id = ?");
+
+		$statement->execute([md5($password),$userId]);
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+
+	public function listOfUsers(){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("SELECT user_id as 'id', name, username, user_type,
+											is_active, archive
+											FROM tbl_users
+
+											ORDER BY user_type DESC, name");
+
+		$statement->execute();
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		//return $statement->errorInfo();
+
+	}
+
+	public function lockUser($data, $userId){
+
+		$archive = 1; // lock account
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function unlockUser($data, $userId){
+
+		$archive = 0; // active
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function approveUser($data, $userId){
+
+		$archive = 0; // active
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function disApproveUser($data, $userId){
+
+		$archive = 3; // declined/deleted
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function promoteUser($data, $userId){
+
+		$userType = 3; // superAdmin
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET user_type = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$userType,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function demoteUser($data, $userId){
+
+		
+		$userType = 1; // administrator
+
+		$currentDate = date("Y-m-d H:i:s");
+
+		$statement = $this->pdo->prepare("UPDATE tbl_users
+											SET user_type = ?, last_modified = ?, last_modified_by = ?
+											WHERE user_id = ?");
+
+		$statement->execute([$userType,$currentDate,$userId,$data['userId']]);
+
+		return $statement->rowCount();
 
 	}
 

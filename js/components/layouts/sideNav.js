@@ -1,5 +1,5 @@
 Vue.component('sideNav', {
-	props: ['pageCounter'],
+	props: ['pageCounter','userData'],
 	template: `
 		
 		<div class="sidenav w3-card has-background-white">
@@ -23,6 +23,7 @@ Vue.component('sideNav', {
                             <ul>
                                 <li><a :class="{'is-active' : pageCounter == 51}" href="reports-received.html"><i class="fas fa-indent" ></i> &nbsp Received</a></li>
                                 <li><a :class="{'is-active' : pageCounter == 52}" href="reports-released.html"><i class="fas fa-outdent" ></i> &nbsp Released</a></li>
+                                <li><a :class="{'is-active' : pageCounter == 53}" href="reports-expired.html"><i class="fas fa-calendar-times"></i> &nbsp Products <br>&nbsp&nbsp&nbsp&nbsp&nbsp With<br>&nbsp&nbsp&nbsp&nbsp&nbsp  Expiration </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -31,10 +32,11 @@ Vue.component('sideNav', {
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a :class="{'is-active' : pageCounter == 41 || pageCounter == 42}"><i class="fas fa-cogs"></i> &nbsp Manage</a>
+                            <a :class="{'is-active' : pageCounter == 41 || pageCounter == 42 || pageCounter == 43}"><i class="fas fa-cogs"></i> &nbsp Manage</a>
                             <ul>
                                 <li><a  :class="{'is-active' : pageCounter == 41}" href="manage-products.html"> <i class="fas fa-boxes"></i> &nbsp Products</a></li>
                                 <li><a  :class="{'is-active' : pageCounter == 42}" href="manage-supplier.html"> <i class="fas fa-truck-moving"></i> &nbsp Supplier</a></li>
+                                <li v-show="userData.userType == '3'"><a  :class="{'is-active' : pageCounter == 43}" href="manage-users.html"> <i class="fas fa-users"></i> &nbsp Users</a></li>
                             </ul>
                         </li>
                     </ul>

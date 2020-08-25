@@ -5,7 +5,7 @@ Vue.component('headerNav', {
 		<div class=" ">
 		    <nav class="navbar is-fixed-top w3-border-bottom w3-border-blue w3-card" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
-					<a class="navbar-item brand-text">
+					<a class="navbar-item brand-text" href="dashboard.html">
 						<img src="../assets/images/ad_logo.png" width="150px" />
 					</a>
 
@@ -23,6 +23,19 @@ Vue.component('headerNav', {
 
 					<div class="navbar-end">
 						<div class="navbar-item">
+
+							<p>Hi! {{userData.userFullName}}</p> &nbsp &nbsp
+							<div class="navbar-item has-dropdown is-hoverable">
+				            	<a class="navbar-link" :class="{'is-active' : pageCounter == 5}">
+			                        <span class="has-text-link"><i class="fas fa-cog"></i></span> &nbsp
+			                    </a>
+
+			                    <div class="navbar-dropdown">
+			                        <a class="navbar-item" href="change-password.html">
+			                            <i class="fas fa-key"></i> &nbsp Change Password
+			                        </a>
+			                    </div>
+			                </div>
 							<div class="buttons" >
 								<a class="button is-light" @click="signOut">
 									<i class="fas fa-sign-out-alt"></i> &nbsp Sign Out
@@ -137,23 +150,26 @@ Vue.component('headerNav', {
 		authentication(){
 			var self = this;
 
+			
+
 			axios.get('../php/api/userAuthentication.php')
 			.then(function (response){
-
+				
 				if(response.data.allowedAccess == 0){
 					self.showAuthenticationErrorMessage("You're not allowed to access this system");
-				} 
+				} else {
 
-				let userData = {
-					userId : response.data.id,
-					userName : response.data.username,
-					userType : response.data.userType,
-					userFullName : response.data.name,
-					allowedAccess : response.data.allowedAccess
-				};
+					let userData = {
+						userId : response.data.id,
+						userName : response.data.username,
+						userType : response.data.userType,
+						userFullName : response.data.name,
+						allowedAccess : response.data.allowedAccess
+					};
 
-				self.userData = userData;
-				self.$emit("copy-user-data", self.userData);
+					self.userData = userData;
+					self.$emit("copy-user-data", self.userData);
+				}
 				
 
 

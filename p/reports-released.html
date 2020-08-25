@@ -34,6 +34,7 @@
                 
                 <side-nav
                     :page-counter = "pageCounter"
+                    :user-data = "userData"
                 >
                 </side-nav>
 
@@ -41,45 +42,38 @@
                 <div class="column main">
                     <br>
                     <div class="w3-row w3-container">
-                        <div class="columns">
-                            <div class="column is-1"></div>
-                            <div class="column is-10">
+                        
+                        <!-- Start -->
+                        <div class="w3-row box w3-card">
 
-                                <!-- Start -->
-                                <div class="w3-row box w3-card">
+                            <br>
 
-                                    <br>
+                            <dates-selection
+                                @config-date-label="configDateLabel"
+                                @fetch-records = "fetchReleasedProducts"
+                            >
+                            </dates-selection>
+                            
+                            <br>
+                            <filter-released-products
+                                :branch-types = "branchTypes"
+                            >
+                            </filter-released-products>
+                            
+                            <br>
+                            <reports-released-table
 
-                                    <dates-selection
-                                        @config-date-label="configDateLabel"
-                                        @fetch-records = "fetchReleasedProducts"
-                                    >
-                                    </dates-selection>
-                                    
-                                    <br>
-                                    <filter-released-products
-                                        :branch-types = "branchTypes"
-                                    >
-                                    </filter-released-products>
-                                    
-                                    <br>
-                                    <reports-released-table
+                                :data = "filteredReleasedProducts"
+                                :date-label = "dateLabel"
+                                :user-data = "userData"
 
-                                        :data = "filteredReleasedProducts"
-                                        :date-label = "dateLabel"
-                                        :user-data = "userData"
-
-                                    >
-                                    </reports-released-table>
-
-                                </div>
-
-                                <!-- End -->
-
-                            </div>
-                            <div class="column is-1"></div>
+                            >
+                            </reports-released-table>
 
                         </div>
+                        <br><br>
+                        <!-- End -->
+                        
                     </div>
                 </div>
             </div>

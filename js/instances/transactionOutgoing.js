@@ -191,6 +191,7 @@ var sc = new Vue({
 
 			this.isOpenAddModal = false;
 			this.transaction.products = [];
+			this.fetchProducts();
 
 		},
 

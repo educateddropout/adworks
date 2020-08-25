@@ -78,6 +78,7 @@ var sc = new Vue({
 			this.product.index.error = validateIndex(this.product.index.value);
 			this.product.quantity.error = validateQuantity(this.product.quantity.value);
 			this.product.price.error = validatePrice(this.product.price.value);
+			this.product.expirationDate.error = validateExpirationDate(this.product.expirationDate.value);
 
 			if(this.product.index.error == "" && this.product.quantity.error == "" &&  this.product.price.error == ""){
 				this.transaction.products.push({

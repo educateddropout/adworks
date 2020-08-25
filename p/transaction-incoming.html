@@ -33,6 +33,7 @@
                 
                 <side-nav
                     :page-counter = "pageCounter"
+                    :user-data = "userData"
                 >
                 </side-nav>
 
@@ -40,53 +41,47 @@
                 <div class="column main">
                     <br>
                     <div class="w3-row w3-container">
-                        <div class="columns">
-                            <div class="column is-1"></div>
-                            <div class="column is-10">
 
-                                <!-- Start -->
-                                <div class="w3-row box w3-card">
-                                    
-                                    <inc-out-tab
-                                        :tab-counter = "tabCounter"
-                                    >
-                                    </inc-out-tab>
+                            <!-- Start -->
+                            <div class="w3-row box w3-card">
+                                
+                                <inc-out-tab
+                                    :tab-counter = "tabCounter"
+                                >
+                                </inc-out-tab>
 
+                                <br>
+
+                                <dates-selection
+                                    @config-date-label="configDateLabel"
+                                    @fetch-records = "fetchIncomingTransactions"
+                                >
+                                </dates-selection>
+
+                                <div class="w3-row">
                                     <br>
-
-                                    <dates-selection
-                                        @config-date-label="configDateLabel"
-                                        @fetch-records = "fetchIncomingTransactions"
-                                    >
-                                    </dates-selection>
-
-                                    <div class="w3-row">
-                                        <br>
-                                        <p class="control">
-                                            <button class="button is-link" @click="openAddModal">
-                                                <i class="fas fa-plus-square"></i> &nbsp Add Incoming Transaction
-                                            </button>
-                                        </p>
-                                    </div>
-                                    
-                                    <br>
-
-                                    <incoming-transaction-table
-                                        :transactions = "incomingTransactions"
-                                        :date-label = "dateLabel"
-                                        :user-data = "userData"
-
-                                        @open-view-modal = "openViewModal"
-                                        @void-transaction="voidTransaction"
-                                    >
-                                    </incoming-transaction-table>
-
+                                    <p class="control">
+                                        <button class="button is-link" @click="openAddModal">
+                                            <i class="fas fa-plus-square"></i> &nbsp Add Incoming Transaction
+                                        </button>
+                                    </p>
                                 </div>
+                                
+                                <br>
 
-                                <!-- End -->
+                                <incoming-transaction-table
+                                    :transactions = "incomingTransactions"
+                                    :date-label = "dateLabel"
+                                    :user-data = "userData"
+
+                                    @open-view-modal = "openViewModal"
+                                    @void-transaction="voidTransaction"
+                                >
+                                </incoming-transaction-table>
 
                             </div>
-                            <div class="column is-1"></div>
+                            <br><br>
+                            <!-- End -->
 
                             <div id="modal-fadeInScale-fs" class="modal modal-full-screen modal-fx-fadeInScale" :class="{'is-active' : isOpenAddModal}">
                                 <div class="modal-background" @click="closeMMessage"></div>
@@ -236,8 +231,6 @@
                                 @close="closeProductDetails"
                             >
                             </product-detail-modal>
-
-                        </div>
                     </div>
                 </div>
             </div>

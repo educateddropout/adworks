@@ -1,5 +1,5 @@
 Vue.component('filterInventory', {
-	props: ['productTypes', 'stockTypes'],
+	props: ['productTypes', 'stockTypes', 'supplierTypes', 'supplierLib'],
 	template: `
     
         <div>
@@ -22,6 +22,24 @@ Vue.component('filterInventory', {
                                     </div>
                                     <div class="w3-col l9">
                                         <label class="pointer" :for="pt.description">{{pt.description}}</label>&nbsp&nbsp
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-row w3-border-bottom w3-border-blue">
+                    <div class="row w3-margin">
+                        <div class="columns">
+                            <div class="column" v-for="s in supplierLib">
+                                <div class="w3-row">
+                                    <div class="w3-col l3">
+                                        <input class="w3-check pointer" type="checkbox" :id="s.supplier_name" :value="s.supplier_id" v-model="supplierTypes.value" >
+                                    </div>
+                                    <div class="w3-col l9">
+                                        <label class="pointer" :for="s.supplier_name">{{s.supplier_name}}</label>&nbsp&nbsp
                                     </div>
                                 </div>
                                 

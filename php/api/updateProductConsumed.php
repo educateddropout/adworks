@@ -18,11 +18,12 @@ $userId = $_SESSION['adi_user_id'];
 $returnValue = array();
 $returnValue["status"] = "ERROR";
 
-$product = $data['product'];
+$productReceivedId = $data['received_id'];
+$productCurrentConsumedCtr = $data['consumed_ctr'];
 
 try {
 
-	$results = $database->updateProduct($product, $userId);
+	$results = $database->updateProductConsumed($productReceivedId, $userId, $productCurrentConsumedCtr);
 	$returnValue["status"] = "SUCCESS";
 	$returnValue["message"] = $results;
 

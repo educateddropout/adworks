@@ -106,6 +106,21 @@ function validateQuantity(value, stock){
 
 }
 
+function validateExpirationDate(date){
+
+    let retVal = "";
+    let today = new moment(moment().toISOString(true).substring(0,10));
+    let formattedDateToday = today.toISOString(true).substring(0,10);
+
+    alert(date);
+    if(date != ""){
+        if(date <= formattedDateToday ) retVal = "Thou shall not get expired product.";
+    }
+
+    return retVal;
+
+}
+
 function validateQuantityOutgoing(value, stock, isSaving){
 
     let retVal = "";

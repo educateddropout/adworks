@@ -33,6 +33,7 @@
                 
                 <side-nav
                     :page-counter = "pageCounter"
+                    :user-data = "userData"
                 >
                 </side-nav>
 
@@ -40,9 +41,6 @@
                 <div class="column main">
                     <br>
                     <div class="w3-row w3-container">
-                        <div class="columns">
-                            <div class="column is-1"></div>
-                            <div class="column is-10">
 
                                 <!-- Start -->
                                 <div class="w3-row box w3-card">
@@ -58,6 +56,8 @@
                                     <filter-inventory
                                         :product-types = "productTypes"
                                         :stock-types = "stockTypes"
+                                        :supplier-types = "supplierTypes"
+                                        :supplier-lib = "supplierLib"
                                     >
                                     </filter-inventory>
                                     <br>
@@ -102,7 +102,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="product,index in sortedProducts">
+                                                <tr v-for="product,index in sortedProducts" 
+                                                    :class="{'w3-pale-red': product.quantity == 0, 'w3-pale-green': product.quantity > 10, 'w3-pale-yellow': product.quantity > 0 && product.quantity < 10}"
+                                                >
                                                     <td>{{index+1}}</td>
                                                     <td>{{product.name}}</td>
                                                     <td>{{product.product_description}}</td>
@@ -110,9 +112,8 @@
                                                     <td>{{getUnit(product.unit)}}</td>
                                                     <td>₱ {{convertMoney(Number(product.current_price))}}</td>
                                                     <td>
-                                                        <b><span v-if="product.quantity == 0" class="has-text-danger">OUT OF STOCK</span>
-                                                        <span v-else-if="product.quantity > 10" class="has-text-success">{{product.quantity}}</span>
-                                                        <span v-else="" class="has-text-warning">{{product.quantity}}</span></b>
+                                                        <b><span v-if="product.quantity == 0">OUT OF STOCK</span>
+                                                        <span v-else="" >{{product.quantity}}</span></b>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -120,14 +121,9 @@
                                     </div>
 
                                 </div>
-
+                                <br><br>
                                 <!-- End -->
 
-                            </div>
-                            <div class="column is-1"></div>
-
-
-                        </div>
                     </div>
                 </div>
 

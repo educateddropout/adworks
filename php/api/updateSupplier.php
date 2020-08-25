@@ -13,7 +13,7 @@ header('Content-Type: application/download; charset=utf-8');
 // decoding of post data //
 $data = json_decode(file_get_contents("php://input"), true);
 
-$userId = "111111";
+$userId = $_SESSION['adi_user_id'];
 
 $returnValue = array();
 $returnValue["status"] = "ERROR";

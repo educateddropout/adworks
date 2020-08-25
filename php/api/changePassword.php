@@ -10,25 +10,24 @@ header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/download; charset=utf-8');
 //header('Content-Type: text/plain; charset=utf-8');
 
+$userId = $_SESSION['adi_user_id'];
+
 // decoding of post data //
 $data = json_decode(file_get_contents("php://input"), true);
-
-$userId = $_SESSION['adi_user_id'];
 
 $returnValue = array();
 $returnValue["status"] = "ERROR";
 
-$product = $data['product'];
+try{
 
-try {
+	$results = $database->changePassword( $data['password'], $userId);
 
-	$results = $database->updateProduct($product, $userId);
 	$returnValue["status"] = "SUCCESS";
-	$returnValue["message"] = $results;
+	$returnValue['message'] = $results;
 
-} 
+}
 catch(PDOException $e){
-	$returnValue["status"] = "ERROR";
+
 	$returnValue['message'] = $e;
 
 }
