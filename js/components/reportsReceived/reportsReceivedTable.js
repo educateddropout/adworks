@@ -14,7 +14,7 @@ Vue.component('reportsReceivedTable', {
                     <tr class="has-background-dark">
                         <th class=" has-text-white ">#</th>
                         <th class=" has-text-white ">Date and Time Received</th>
-                        <th class=" has-text-white ">Description</th>
+                        <th class=" has-text-white ">Product Description</th>
                         <th class=" has-text-white ">Units</th>
                         <th class=" has-text-white ">Expiration</th>
                         <th class=" has-text-white ">Quantity</th>

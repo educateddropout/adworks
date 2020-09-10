@@ -148,6 +148,7 @@ var sc = new Vue({
 
 		updatePrice(){
 
+			
 			this.product.amount.value = this.product.quantity.value * this.productLib[this.product.index.value].current_price;
 			this.product.quantity.error = validateQuantityOutgoing(this.product.quantity.value, this.product.stocks.value, false);
 
@@ -163,8 +164,9 @@ var sc = new Vue({
 
 			this.product.quantity.value = 0;
 			this.product.stocks.value = this.productLib[this.product.index.value].quantity;
-			this.product.unit.value = this.getUnit(this.productLib[this.product.index.value].unit);
+			this.product.unit.value = this.productLib[this.product.index.value].unit_description;
 
+			this.product.index.error = validateIndex(this.product.index.value);
 			this.product.quantity.error = validateQuantityOutgoing(this.product.quantity.value, this.product.stocks.value, false);
 			
 
@@ -294,15 +296,6 @@ var sc = new Vue({
 		closeMMessage(){
 			this.mMessage = "";
 			this.fetchOutgoingTransactions(this.dateFrom, this.dateTo);
-		},
-
-		getUnit(unitId){
-			let retVal = "PCS";
-
-			if(unitId == 2) retVal = "PACK";
-			else if(unitId == 3) retVal = "BOX";
-
-			return retVal;
 		},
 
 		convertMoney(n){

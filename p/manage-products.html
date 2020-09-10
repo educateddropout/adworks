@@ -96,9 +96,9 @@
                                         <tr v-for="product,index in productLib">
                                             <td>{{index+1}}</td>
                                             <td>{{product.name}}</td>
-                                            <td>{{getProductType(product.product_type)}}</td>
+                                            <td>{{product.product_description}}</td>
                                             <td>{{product.supplier_name}}</td>
-                                            <td>{{getUnit(product.unit)}}</td>
+                                            <td>{{product.unit_description}}</td>
                                             <td class="w3-center has-text-link w3-border-left pointer" @click="openUpdateProductModal(index)"><i class="fas fa-edit"></i></td>
                                             <td class="w3-center has-text-danger w3-border-left pointer" @click="archiveProduct(product.product_id)"><i class="fas fa-trash-alt"></i></td>
                                         </tr>
@@ -169,9 +169,14 @@
 
                                     <div class="w3-row">
                                         <label><b>Current Price</b></label>
-                                        <input class="input upperCase" :class="" type="text"
-                                            v-model = "product.current_price.value"
-                                        >
+                                        <div class="control has-icons-left">
+                                            <input class="input upperCase" :class="" type="text"
+                                                v-model = "product.current_price.value"
+                                            >
+                                            <span class="icon is-left">
+                                                ₱
+                                            </span>
+                                        </div>
                                         <p class="help is-danger"></p>
                                     </div>
                                     <br>

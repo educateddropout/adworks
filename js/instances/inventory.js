@@ -102,15 +102,6 @@ var sc = new Vue({
 
 		},
 
-		getUnit(unitId){
-			let retVal = "PCS";
-
-			if(unitId == 2) retVal = "PACK";
-			else if(unitId == 3) retVal = "BOX";
-
-			return retVal;
-		},
-
 		convertMoney(n){
 
             let retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,') + ".00";

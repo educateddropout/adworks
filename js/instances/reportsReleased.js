@@ -15,7 +15,9 @@ var sc = new Vue({
 
 		dateLabel : "",
 		dateTo : "",
-		dateFrom : ""
+		dateFrom : "",
+		searchInput : ""
+
 		
 	},
 
@@ -25,7 +27,10 @@ var sc = new Vue({
 
             return this.releasedProducts.filter(p => {
 
-                return this.branchTypes.value.includes(p.branch);
+            	let searchHash = p.name;
+
+                return this.branchTypes.value.includes(p.branch) &&
+                	searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
 
             });
             
@@ -72,15 +77,6 @@ var sc = new Vue({
                 console.log(error);
             });
 
-		},
-
-		getUnit(unitId){
-			let retVal = "PCS";
-
-			if(unitId == 2) retVal = "PACK";
-			else if(unitId == 3) retVal = "BOX";
-
-			return retVal;
 		},
 
 		convertMoney(n){

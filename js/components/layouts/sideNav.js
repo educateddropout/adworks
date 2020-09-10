@@ -36,7 +36,10 @@ Vue.component('sideNav', {
                             <ul>
                                 <li><a  :class="{'is-active' : pageCounter == 41}" href="manage-products.html"> <i class="fas fa-boxes"></i> &nbsp Products</a></li>
                                 <li><a  :class="{'is-active' : pageCounter == 42}" href="manage-supplier.html"> <i class="fas fa-truck-moving"></i> &nbsp Supplier</a></li>
+                                <li><a  :class="{'is-active' : pageCounter == 44}" href="manage-product-type.html"> <i class="fas fa-box"></i> &nbsp Product <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Type</a></li>
+                                <li><a  :class="{'is-active' : pageCounter == 45}" href="manage-unit.html"> <i class="fas fa-tape"></i> &nbsp Unit</a></li>
                                 <li v-show="userData.userType == '3'"><a  :class="{'is-active' : pageCounter == 43}" href="manage-users.html"> <i class="fas fa-users"></i> &nbsp Users</a></li>
+                                <br><br>
                             </ul>
                         </li>
                     </ul>

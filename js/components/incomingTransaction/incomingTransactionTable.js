@@ -35,10 +35,10 @@ Vue.component('incomingTransactionTable', {
                 </tfoot>
                 <tbody>
                     <tr v-for="it,index in transactions" >
-                        <td @click="openViewModal(index)">{{index+1}}</td>
-                        <td @click="openViewModal(index)">{{it.last_modified}}</td>
-                        <td @click="openViewModal(index)">{{it.name}}</td>
-                        <td @click="openViewModal(index)">₱ {{convertMoney(Number(it.total_amount))}}</td>
+                        <td class="pointer" @click="openViewModal(index)">{{index+1}}</td>
+                        <td class="pointer" @click="openViewModal(index)">{{it.last_modified}}</td>
+                        <td class="pointer" click="openViewModal(index)">{{it.name}}</td>
+                        <td class="pointer" @click="openViewModal(index)">₱ {{convertMoney(Number(it.total_amount))}}</td>
                         <td class="has-text-danger w3-border-left w3-center pointer" @click="showVoidTransactionModal(it.transaction_id)">
                             <i class="fas fa-trash-alt"></i>
                         </td>

@@ -211,16 +211,7 @@ var sc = new Vue({
             });
 
 		},
-
-		getUnit(unitId){
-			let retVal = "PCS";
-
-			if(unitId == 2) retVal = "PACK";
-			else if(unitId == 3) retVal = "BOX";
-
-			return retVal;
-		},
-
+		
 		getProductType(value){
 			let retVal = "DENTAL SUPPLIES";
 

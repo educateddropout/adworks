@@ -80,7 +80,7 @@ var sc = new Vue({
 			this.product.price.error = validatePrice(this.product.price.value);
 			this.product.expirationDate.error = validateExpirationDate(this.product.expirationDate.value);
 
-			if(this.product.index.error == "" && this.product.quantity.error == "" &&  this.product.price.error == ""){
+			if(this.product.index.error == "" && this.product.quantity.error == "" &&  this.product.price.error == "" && this.product.expirationDate.error == ""){
 				this.transaction.products.push({
 					name : self.productLib[self.product.index.value].name,
 					id : self.productLib[self.product.index.value].product_id,
@@ -112,9 +112,29 @@ var sc = new Vue({
 
 		selectProduct(){
 
+			this.product.index.error = validateIndex(this.product.index.value);
+			this.product.price.error = "";
 			this.product.price.value = this.productLib[this.product.index.value].current_price;
-			this.product.unit.value = this.getUnit(this.productLib[this.product.index.value].unit);
+			this.product.unit.value = this.productLib[this.product.index.value].unit_description;
 
+
+		},
+
+		changePrice(){
+
+			this.product.price.error = validatePrice(this.product.price.value);
+
+		},
+
+		changeQuantity(){
+
+			this.product.quantity.error = validateQuantity(this.product.quantity.value);
+
+		},
+
+		changeExpirationDate(){
+
+			this.product.expirationDate.error = validateExpirationDate(this.product.expirationDate.value);
 
 		},
 
@@ -286,15 +306,6 @@ var sc = new Vue({
 				this.mMessage = "";
 				this.fetchIncomingTransactions(this.dateFrom, this.dateTo);
 			}
-		},
-
-		getUnit(unitId){
-			let retVal = "PCS";
-
-			if(unitId == 2) retVal = "PACK";
-			else if(unitId == 3) retVal = "BOX";
-
-			return retVal;
 		},
 
 		convertMoney(n){

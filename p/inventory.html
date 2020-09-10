@@ -109,7 +109,7 @@
                                                     <td>{{product.name}}</td>
                                                     <td>{{product.product_description}}</td>
                                                     <td>{{product.supplier_name}}</td>
-                                                    <td>{{getUnit(product.unit)}}</td>
+                                                    <td>{{product.unit_description}}</td>
                                                     <td>₱ {{convertMoney(Number(product.current_price))}}</td>
                                                     <td>
                                                         <b><span v-if="product.quantity == 0">OUT OF STOCK</span>

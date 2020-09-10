@@ -15,7 +15,7 @@ Vue.component('reportsReleasedTable', {
                         <th class=" has-text-white ">#</th>
                         <th class=" has-text-white ">Date and Time Received</th>
                         <th class=" has-text-white ">Branch</th>
-                        <th class=" has-text-white ">Description</th>
+                        <th class=" has-text-white ">Product Description</th>
                         <th class=" has-text-white ">Units</th>
                         <th class=" has-text-white ">Quantity</th>
                         <th class=" has-text-white ">Price</th>
@@ -43,7 +43,7 @@ Vue.component('reportsReleasedTable', {
                 <tbody v-if="data.length > 0">
                     <tr v-for="d,index in data" >
                         <td >{{index+1}}</td>
-                        <td >{{d.last_modified}}</td>
+                        <td class="has-text-link pointer" @click="showTransactionData(d.transaction_id)"><u>{{d.last_modified}}</u></td>
                         <td >{{d.branch}}</td>
                         <td >{{d.name}}</td>
                         <td >{{d.unit}}</td>
@@ -54,11 +54,38 @@ Vue.component('reportsReleasedTable', {
                     </tr>
                 </tbody>
             </table>
+
+            <product-detail-modal
+                :products = "transactionData"
+                :is-active = "isActiveProductModal"
+                :not-for-saving = "notForSaving"
+
+                @close="closeProductDetails"
+            >
+            </product-detail-modal>
+
         </div>
 
     `,
 
+    data(){
+
+        return {
+
+            transactionData : [],
+
+            isActiveProductModal : false,
+            notForSaving : true
+
+
+        }
+    },
+
     methods : {
+
+        closeProductDetails(){
+            this.isActiveProductModal = false;
+        },
 
         convertMoney(n){
             let retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,') + ".00";
@@ -75,6 +102,30 @@ Vue.component('reportsReleasedTable', {
         voidTransaction(id){
             
             this.$emit('void-transaction',id);
+        },
+
+        showTransactionData(transactionId){
+
+            let self = this;
+
+            axios.post('../php/api/fetchOutgoingTransactionProducts.php',{
+                transactionId : transactionId,
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                if(response.data.status == "SUCCESS"){
+
+                    self.transactionData = response.data.message;
+                    self.isActiveProductModal = true;
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
         }
 
     },

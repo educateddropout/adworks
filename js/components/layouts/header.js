@@ -79,7 +79,7 @@ Vue.component('headerNav', {
 	created(){
 
 		this.authentication();
-		this.isIdle(); 
+		//this.isIdle(); 
 
 	},
 

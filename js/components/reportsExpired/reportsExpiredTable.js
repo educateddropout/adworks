@@ -11,7 +11,7 @@ Vue.component('reportsExpiredTable', {
                     <tr class="has-background-dark">
                         <th class=" has-text-white ">#</th>
                         <th class=" has-text-white ">Date and Time Received</th>
-                        <th class=" has-text-white ">Description</th>
+                        <th class=" has-text-white ">Product Description</th>
                         <th class=" has-text-white ">Units</th>
                         
                         <th class=" has-text-white ">Quantity</th>
@@ -59,7 +59,7 @@ Vue.component('reportsExpiredTable', {
                         <td >₱ {{convertMoney(Number(d.quantity)*Number(d.price))}}</td>
                         <td class="w3-border-left">{{d.expiration_date}}</td>
                         <td class="w3-border-left w3-center pointer" @click="updateConsumed(d.is_consumed, index, d.received_id)"><b>
-                            <span class="has-text-danger" v-if="d.is_consumed != 'Y'">{{d.is_consumed}}</span>
+                            <span class="has-text-danger" v-if="d.is_consumed != 'Y'">N</span>
                             <span class="has-text-success" v-else=""><i class="fas fa-check"></i></span>
                             </b>
                         </td>

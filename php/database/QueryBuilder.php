@@ -89,10 +89,10 @@ class QueryBuilder
 
 			$statement = $this->pdo->prepare("INSERT INTO tbl_products_received
 												(received_id, transaction_id, product_id, quantity,
-													price, unit, last_modified, last_modified_by,
+													price, unit, last_modified, last_modified_by, date_added,
 													expiration_date,archive)
 											VALUES (?,?,?,?,
-													?,?,?,?,
+													?,?,?,?,?,
 													?,?)");
 
 			$statement->execute(productReceivedObj($transaction_id , $product_id, $prod, $userId));
@@ -134,11 +134,11 @@ class QueryBuilder
 
 			$statement = $this->pdo->prepare("INSERT INTO tbl_products_released
 												(released_id, transaction_id, product_id, quantity,
-													unit, last_modified, last_modified_by,
+													unit, last_modified, last_modified_by, date_added,
 													product_price, amount,
 													archive)
 											VALUES (?,?,?,?,
-													?,?,?,
+													?,?,?,?,
 													?,?,
 													?)");
 
@@ -195,7 +195,7 @@ class QueryBuilder
 												LEFT JOIN tbl_products p ON p.product_id = r.product_id
 												LEFT JOIN tbl_users u ON u.user_id = r.last_modified_by
 											WHERE r.archive = ? AND r.expiration_date IS NOT NULL
-											ORDER BY r.last_modified DESC");
+											ORDER BY r.date_added DESC");
 
 		$transaction = $statement->execute([$archive]);
 		
@@ -360,7 +360,7 @@ class QueryBuilder
 
 											FROM tbl_products p
 												INNER JOIN lib_product_type pt ON pt.id = p.product_type
-												INNER JOIN lib_unit u ON u.unit_id = p.unit
+												INNER JOIN lib_unit u ON u.id = p.unit
 											WHERE p.archive = ? AND p.quantity < ?
 											ORDER BY p.quantity, p.name DESC");
 
@@ -374,14 +374,16 @@ class QueryBuilder
 
 		$archive = 0; // active
 
-		$statement = $this->pdo->prepare("SELECT p.product_id, p.supplier_id, s.supplier_name, p.name, p.unit, p.product_type, 
-											pt.description as 'product_description',
+		$statement = $this->pdo->prepare("SELECT p.product_id, p.supplier_id, s.supplier_name, p.name, 
+											p.unit, u.description as 'unit_description',
+											p.product_type, pt.description as 'product_description',
 											p.quantity, p.current_price, p.date_added
 
 											FROM tbl_products p
 												INNER JOIN tbl_supplier s ON s.supplier_id = p.supplier_id
-
 												INNER JOIN lib_product_type pt ON pt.id = p.product_type
+												INNER JOIN lib_unit u ON u.id = p.unit
+
 											WHERE p.archive = ?
 											ORDER BY p.date_added DESC");
 
@@ -470,9 +472,143 @@ class QueryBuilder
 
 	}
 
+
+	public function fetchProductType(){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("SELECT id, description, last_modified_by, last_modified
+											FROM lib_product_type
+											WHERE archive = ?
+											ORDER BY id");
+
+		$statement->execute([$archive]);
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function saveProductType($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("INSERT INTO lib_product_type
+												(description, last_modified, last_modified_by,
+												archive)
+											VALUES (?,?,?,?)");
+
+		$statement->execute([$pInfo['description'], $currentDate, $userId, $archive]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function updateProductType($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("UPDATE lib_product_type
+											SET description = ?, last_modified = ?, last_modified_by = ?
+											WHERE id = ?");
+
+		$statement->execute([$pInfo['description'], $currentDate, $userId, $pInfo['id']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function archiveProductType($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 1; // active
+
+		$statement = $this->pdo->prepare("UPDATE lib_product_type
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$pInfo['id']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function fetchUnit(){
+
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("SELECT id, description, last_modified_by, last_modified
+											FROM lib_unit
+											WHERE archive = ?
+											ORDER BY last_modified");
+
+		$statement->execute([$archive]);
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function saveUnit($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("INSERT INTO lib_unit
+												(description, last_modified, last_modified_by,
+												archive)
+											VALUES (?,?,?,?)");
+
+		$statement->execute([$pInfo['description'], $currentDate, $userId, $archive]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function updateUnit($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 0; // active
+
+		$statement = $this->pdo->prepare("UPDATE lib_unit
+											SET description = ?, last_modified = ?, last_modified_by = ?
+											WHERE id = ?");
+
+		$statement->execute([$pInfo['description'], $currentDate, $userId, $pInfo['id']]);
+
+		return $statement->rowCount();
+
+
+	}
+
+	public function archiveUnit($pInfo, $userId){
+
+		
+		$currentDate = date("Y-m-d H:i:s");
+		$archive = 1; // active
+
+		$statement = $this->pdo->prepare("UPDATE lib_unit
+											SET archive = ?, last_modified = ?, last_modified_by = ?
+											WHERE id = ?");
+
+		$statement->execute([$archive,$currentDate,$userId,$pInfo['id']]);
+
+		return $statement->rowCount();
+
+
+	}
+
 	public function fetchSupplier(){
 
-		$synced = 'N'; // not yet synced
 		$archive = 0; // active
 
 		$statement = $this->pdo->prepare("SELECT supplier_id, supplier_name, supplier_address, supplier_contact_number, supplier_contact_person,
@@ -821,7 +957,7 @@ function productReceivedObj($transaction_id , $product_id, $prod, $userId){
 
 
 	array_push($productReceived,$received_id, $transaction_id, $product_id, $quantity,
-					$price, $unit, $currentDate, $userId,
+					$price, $unit, $currentDate, $userId, $currentDate,
 					$expiration_date, $archive);
 
 	return $productReceived;
@@ -845,7 +981,8 @@ function productReleasedObj($transaction_id , $product_id, $prod, $userId){
 
 
 	array_push($productReleased,$received_id, $transaction_id, $product_id, $quantity, 
-				$unit, $currentDate, $userId, $product_price, $amount, $archive);
+				$unit, $currentDate, $userId, $currentDate, 
+				$product_price, $amount, $archive);
 
 	return $productReleased;
 
