@@ -82,10 +82,7 @@ Vue.component('productDetailModal', {
 
         convertMoney(n){
 
-            let retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,') + ".00";
-            if(String(n).indexOf('.') !== -1) retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,');
-
-            return retVal;
+            return (Number(n)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
         },
 

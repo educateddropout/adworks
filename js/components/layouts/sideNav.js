@@ -24,6 +24,7 @@ Vue.component('sideNav', {
                                 <li><a :class="{'is-active' : pageCounter == 51}" href="reports-received.html"><i class="fas fa-indent" ></i> &nbsp Received</a></li>
                                 <li><a :class="{'is-active' : pageCounter == 52}" href="reports-released.html"><i class="fas fa-outdent" ></i> &nbsp Released</a></li>
                                 <li><a :class="{'is-active' : pageCounter == 53}" href="reports-expired.html"><i class="fas fa-calendar-times"></i> &nbsp Products <br>&nbsp&nbsp&nbsp&nbsp&nbsp With<br>&nbsp&nbsp&nbsp&nbsp&nbsp  Expiration </a></li>
+                                <li><a :class="{'is-active' : pageCounter == 54}" href="cost-summary.html"><i class="fas fa-dollar-sign"></i> &nbsp Cost <br>&nbsp&nbsp&nbsp&nbsp Summary</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -37,7 +38,7 @@ Vue.component('sideNav', {
                                 <li><a  :class="{'is-active' : pageCounter == 41}" href="manage-products.html"> <i class="fas fa-boxes"></i> &nbsp Products</a></li>
                                 <li><a  :class="{'is-active' : pageCounter == 42}" href="manage-supplier.html"> <i class="fas fa-truck-moving"></i> &nbsp Supplier</a></li>
                                 <li><a  :class="{'is-active' : pageCounter == 44}" href="manage-product-type.html"> <i class="fas fa-box"></i> &nbsp Product <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Type</a></li>
-                                <li><a  :class="{'is-active' : pageCounter == 45}" href="manage-unit.html"> <i class="fas fa-tape"></i> &nbsp Unit</a></li>
+                                <li><a  :class="{'is-active' : pageCounter == 45}" href="manage-units.html"> <i class="fas fa-tape"></i> &nbsp Unit</a></li>
                                 <li v-show="userData.userType == '3'"><a  :class="{'is-active' : pageCounter == 43}" href="manage-users.html"> <i class="fas fa-users"></i> &nbsp Users</a></li>
                                 <br><br>
                             </ul>

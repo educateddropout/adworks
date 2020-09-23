@@ -21,8 +21,8 @@ var sc = new Vue({
 		},
 		productLib : [],
 		supplierLib : [],
-		unitLib : libUnits(),
-		productTypeLib : productTypeLib(),
+		unitLib : [],
+		productTypeLib : [],
 		mMessage : "",
 		mMessageType : "",
 		isForAdding : true
@@ -35,6 +35,9 @@ var sc = new Vue({
 
 		this.fetchSuppliers();
 		this.fetchProducts();
+		this.fetchProductType();
+		this.fetchUnits();
+
 	},
 
 	methods: {
@@ -46,12 +49,47 @@ var sc = new Vue({
 
 		},
 
+		fetchProductType(){
+
+			let self = this;
+			axios.post('../php/api/fetchProductType.php',{
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                if(response.data.status == "SUCCESS"){
+                    self.productTypeLib = response.data.message;                    
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+		},
+
+		fetchUnits(){
+
+			let self = this;
+			axios.post('../php/api/fetchUnits.php',{
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                if(response.data.status == "SUCCESS"){
+                    self.unitLib = response.data.message;                    
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+		},
+
 		openUpdateProductModal(index){
 
 			this.isOpenAddProductModal = true;
 			this.isForAdding = false;
 
-			console.log(this.productLib[index]);
 			this.product.id.value = this.productLib[index].product_id;
 			this.product.name.value = this.productLib[index].name;
 			this.product.supplier.value = this.productLib[index].supplier_id
@@ -74,6 +112,7 @@ var sc = new Vue({
 			this.isForAdding = true;
 			this.product.id.value = "";
 			this.product.name.value = "";
+			this.product.description.value = "";
 			this.product.supplier.value = -1;
 			this.product.unit.value = -1;
 			this.product.product_type.value = "";
@@ -82,6 +121,7 @@ var sc = new Vue({
 
 			this.product.id.error = "";
 			this.product.name.error = "";
+			this.product.description.error = "";
 			this.product.supplier.error = "";
 			this.product.unit.error = "";
 			this.product.product_type.error = "";
@@ -92,58 +132,118 @@ var sc = new Vue({
 		saveProduct(){
 
 			let self = this;
+			this.validateProductType();
+			this.validateProductName();
+			//this.validateProductDescription();
+			this.validateSupplier();
+			this.validateUnit();
+			this.validatePrice();
+			
+			if(this.product.product_type.error == '' && this.product.name.error == '' &&
+				this.product.supplier.error == '' && this.product.unit.error == '' && this.product.current_price.error == ''){
 
-			axios.post('../php/api/saveProduct.php',{
-            
-                product : this.product
-                
-            })
-            .then(function (response){
+				axios.post('../php/api/saveProduct.php',{
+	            
+	                product : this.product
+	                
+	            })
+	            .then(function (response){
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully saved product details. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully saved product details. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
 
-                self.closeAddProductModal();
+	                self.closeAddProductModal();
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
 
 		},
+
+		validateProductType(){
+
+			this.product.product_type.error = validateSelection(this.product.product_type.value);
+
+		},
+
+		validateProductName(){
+
+			this.product.name.error = validateName(this.product.name.value, true);
+
+		},
+
+		validateProductDescription(){
+
+			this.product.description.error = validateName(this.product.description.value, false);
+
+		},
+
+		validateSupplier(){
+
+			this.product.supplier.error = validateSelection(this.product.supplier.value);
+
+		},
+
+		validateUnit(){
+
+			this.product.unit.error = validateSelection(this.product.unit.value);
+
+		},
+
+		validatePrice(){
+
+			this.product.current_price.error = validatePrice(this.product.current_price.value);
+
+		},
+
 
 		updateProduct(){
 
 			let self = this;
 
-			axios.post('../php/api/updateProduct.php',{
-            
-                product : this.product
-                
-            })
-            .then(function (response){
+			this.validateProductType();
+			this.validateProductName();
+			this.validateProductDescription();
+			this.validateSupplier();
+			this.validateUnit();
+			this.validatePrice();
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully updated product details. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+			if(this.product.product_type.error == '' && this.product.name.error == '' && this.product.description.error == '' &&
+				this.product.supplier.error == '' && this.product.unit.error == '' && this.product.current_price.error == ''){
 
-                self.closeAddProductModal();
+				axios.post('../php/api/updateProduct.php',{
+	            
+	                product : this.product
+	                
+	            })
+	            .then(function (response){
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully updated product details. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
+
+	                self.closeAddProductModal();
+
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
 
 		},
 

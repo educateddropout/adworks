@@ -164,6 +164,22 @@ class QueryBuilder
 
 	}
 
+	public function fetchCostSummary($months, $branch){
+
+		$archive = 0; // active
+		$type_of_transaction = "O";
+
+		$statement = $this->pdo->prepare("SELECT SUM(total_amount) as 'total_amount', YEAR(last_modified) as 'year', MONTH(last_modified) as 'month' from tbl_transactions 
+											WHERE branch = ? AND type_of_transaction = ? AND last_modified > curdate() - interval (dayofmonth(curdate()) - 1) day - interval ? month AND archive = ?
+											GROUP BY YEAR(last_modified), MONTH(last_modified)
+											ORDER BY year,month");
+
+		$transaction = $statement->execute([$branch,$type_of_transaction, $months, $archive]);
+		
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
 	public function fetchReceivedProducts($dateTo, $dateFrom){
 
 		$archive = 0; // active
@@ -285,7 +301,8 @@ class QueryBuilder
 
 		$archive = 0; // active
 
-		$statement = $this->pdo->prepare("SELECT p.name, pr.quantity, pr.unit, pr.price, pr.expiration_date 
+		$statement = $this->pdo->prepare("SELECT p.name, pr.quantity, pr.unit, pr.price, pr.expiration_date, pr.price as 'product_price',
+												pr.quantity*pr.price as 'amount'
 											FROM tbl_products_received pr
 												INNER JOIN tbl_products p
 													ON p.product_id = pr.product_id
@@ -499,7 +516,7 @@ class QueryBuilder
 												archive)
 											VALUES (?,?,?,?)");
 
-		$statement->execute([$pInfo['description'], $currentDate, $userId, $archive]);
+		$statement->execute([strtoupper($pInfo['description']['value']), $currentDate, $userId, $archive]);
 
 		return $statement->rowCount();
 
@@ -516,14 +533,14 @@ class QueryBuilder
 											SET description = ?, last_modified = ?, last_modified_by = ?
 											WHERE id = ?");
 
-		$statement->execute([$pInfo['description'], $currentDate, $userId, $pInfo['id']]);
+		$statement->execute([strtoupper($pInfo['description']['value']), $currentDate, $userId, $pInfo['id']['value']]);
 
 		return $statement->rowCount();
 
 
 	}
 
-	public function archiveProductType($pInfo, $userId){
+	public function archiveProductType($id, $userId){
 
 		
 		$currentDate = date("Y-m-d H:i:s");
@@ -533,7 +550,7 @@ class QueryBuilder
 											SET archive = ?, last_modified = ?, last_modified_by = ?
 											WHERE id = ?");
 
-		$statement->execute([$archive,$currentDate,$userId,$pInfo['id']]);
+		$statement->execute([$archive,$currentDate,$userId, $id]);
 
 		return $statement->rowCount();
 
@@ -566,7 +583,7 @@ class QueryBuilder
 												archive)
 											VALUES (?,?,?,?)");
 
-		$statement->execute([$pInfo['description'], $currentDate, $userId, $archive]);
+		$statement->execute([strtoupper($pInfo['description']['value']), $currentDate, $userId, $archive]);
 
 		return $statement->rowCount();
 
@@ -583,14 +600,14 @@ class QueryBuilder
 											SET description = ?, last_modified = ?, last_modified_by = ?
 											WHERE id = ?");
 
-		$statement->execute([$pInfo['description'], $currentDate, $userId, $pInfo['id']]);
+		$statement->execute([strtoupper($pInfo['description']['value']), $currentDate, $userId, $pInfo['id']['value']]);
 
 		return $statement->rowCount();
 
 
 	}
 
-	public function archiveUnit($pInfo, $userId){
+	public function archiveUnit($id, $userId){
 
 		
 		$currentDate = date("Y-m-d H:i:s");
@@ -600,7 +617,7 @@ class QueryBuilder
 											SET archive = ?, last_modified = ?, last_modified_by = ?
 											WHERE id = ?");
 
-		$statement->execute([$archive,$currentDate,$userId,$pInfo['id']]);
+		$statement->execute([$archive,$currentDate,$userId,$id]);
 
 		return $statement->rowCount();
 

@@ -175,6 +175,7 @@ var sc = new Vue({
 
 		openAddModal(){
 
+			this.branch = { value : -1, error : ''};
 			this.isOpenAddModal = true;
 			this.isForAdding = true;
 
@@ -322,8 +323,29 @@ var sc = new Vue({
             .then(function (response){
 
                 console.log(response.data);
-                //self.getListOfPayments();
+                //window.open('../php/pdf/releaseReceipt.pdf','_newtab');
+                self.sendReceipt(index);
                 window.open('../php/pdf/releaseReceipt.pdf','_newtab');
+
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+
+        },
+
+        sendReceipt(index){
+
+        	var self = this;
+            
+            axios.post('../php/api/emailReceipt.php', {
+                branch : this.outgoingTransactions[index].branch,
+				date : this.outgoingTransactions[index].date
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                //window.open('../php/pdf/releaseReceipt.pdf','_newtab');
 
             })
             .catch(function (error) {

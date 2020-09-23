@@ -12,14 +12,50 @@ var sc = new Vue({
         
         expiredProducts : [],
 
+        expiredStatus : { 'value' : [2] } ,
+
         dateLabel : "",
         dateTo : "",
-        dateFrom : ""
+        dateFrom : "",
+
+        sortedBy : 1,
+
+        searchInput : ""
         
     },
 
     mounted(){
+
         this.fetchExpiredProducts();
+
+        
+    },
+
+    computed : {
+
+        filteredProducts(){
+
+            return this.expiredProducts.filter(p => {
+                let searchHash = p.name;
+                return this.expiredStatus.value.includes(segregateExpiration(p.expiration_date, p.is_consumed)) &&
+                        searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
+
+            });
+
+            
+        },
+
+        sortedExpiredProducts(){
+            
+            let retVal = [];
+
+            if(this.sortedBy == 1) retVal = _.orderBy(this.filteredProducts, ['expiration_date', 'name'], ['asc', 'asc'] );
+            else if(this.sortedBy == 11) retVal = _.orderBy(this.filteredProducts, ['expiration_date', 'name'], ['desc', 'asc'] );
+
+            return retVal;
+
+        }
+
     },
 
     methods: {
@@ -28,6 +64,13 @@ var sc = new Vue({
         copyUserData(userData){
 
             this.userData = userData;
+
+        },
+
+        clickSort(index){
+
+            if(this.sortedBy != index) this.sortedBy = index;
+            else this.sortedBy = index + 10;
 
         },
 

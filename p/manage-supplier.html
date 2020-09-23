@@ -121,44 +121,43 @@
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Supplier Name</b></label>
-                                        <input class="input upperCase" :class="" maxlength="80" 
-                                            v-model = "supplier.name.value"
+                                        <input class="input upperCase" :class="{'is-danger' : supplier.name.error != ''}" maxlength="80" 
+                                            v-model = "supplier.name.value"  @change="validateSupplierName"
                                         >
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{supplier.name.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Address</b></label>
-                                        <input class="input upperCase" :class="" maxlength="100" 
-                                            v-model = "supplier.address.value"
+                                        <input class="input upperCase" :class="{'is-danger' : supplier.address.error != ''}" maxlength="100" 
+                                            v-model = "supplier.address.value" @change="validateAddress"
                                         >
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{supplier.address.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Contact Number</b></label>
-                                        <input class="input upperCase" :class="" maxlength="11" 
-                                            v-model = "supplier.contactNumber.value"
+                                        <input class="input upperCase" :class="{'is-danger' : supplier.contactNumber.error != ''}" maxlength="11" 
+                                            v-model = "supplier.contactNumber.value" @change="validateContactNumber"
                                         >
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{supplier.contactNumber.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Contact Person</b></label>
-                                        <input class="input upperCase" :class="" maxlength="100"
-                                            v-model = "supplier.contactPerson.value" 
+                                        <input class="input upperCase" :class="{'is-danger' : supplier.contactPerson.error != ''}" maxlength="100"
+                                            v-model = "supplier.contactPerson.value" @change="validateContactPerson"
                                         >
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{supplier.contactPerson.error}}</p>
                                     </div>
                                     <br>
 
                                     <div class="w3-row">
                                         <label><b>Remarks</b></label>
-                                        <textarea class="textarea upperCase" :class=""
+                                        <textarea class="textarea upperCase"
                                             v-model = "supplier.remarks.value" 
                                             rows="3" 
                                         ></textarea> 
-                                        <p class="help is-danger"></p>
                                     </div>
 
                                     

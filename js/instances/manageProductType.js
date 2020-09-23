@@ -37,13 +37,19 @@ var sc = new Vue({
 
 		},
 
-		openUpdateSupplierModal(index){
+		validateProductTypeDescription(){
+
+			this.productType.description.error = validateName(this.productType.description.value,true);
+
+		},
+
+		openUpdateProductTypeModal(index){
 
 			this.isOpenAddProductTypeModal = true;
 			this.isForAdding = false;
 
-			this.productType.id.value = this.supplierLib[index].id;
-			this.productType.description.value = this.supplierLib[index].description;
+			this.productType.id.value = this.productTypes[index].id;
+			this.productType.description.value = this.productTypes[index].description;
 
 			
 		},
@@ -70,28 +76,34 @@ var sc = new Vue({
 
 			let self = this;
 
-			axios.post('../php/api/saveProductType.php',{
-            
-                productType : this.productType
-                
-            })
-            .then(function (response){
+			this.validateProductTypeDescription();
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully saved product type. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+			if(this.productType.description.error == ""){
 
-                self.closeAddSupplierModal();
+				axios.post('../php/api/saveProductType.php',{
+	            
+	                product_type : this.productType
+	                
+	            })
+	            .then(function (response){
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully saved product type. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
+
+	                self.closeAddProductTypeModal();
+
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
 
 		},
 
@@ -99,28 +111,34 @@ var sc = new Vue({
 
 			let self = this;
 
-			axios.post('../php/api/updateProductType.php',{
-            
-                productType : this.productType
-                
-            })
-            .then(function (response){
+			this.validateProductTypeDescription();
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully updated product type. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+			if(this.productType.description.error == ''){
 
-                self.closeAddProductTypeModal();
+				axios.post('../php/api/updateProductType.php',{
+	            
+	                product_type : this.productType
+	                
+	            })
+	            .then(function (response){
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully updated product type. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
+
+	                self.closeAddProductTypeModal();
+
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
 
 		},
 
@@ -130,7 +148,7 @@ var sc = new Vue({
 
 			axios.post('../php/api/archiveProductType.php',{
             
-                productType : this.productType
+                product_type_id : id
                 
             })
             .then(function (response){

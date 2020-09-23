@@ -10,7 +10,6 @@ var sc = new Vue({
 		pageCounter : 2,
 		userData : {},
 		productLib : [],
-		unitLib : libUnits(),
 		
 
 		productTypes : { 'value' : [1,2,3,4,5] } ,
@@ -104,10 +103,7 @@ var sc = new Vue({
 
 		convertMoney(n){
 
-            let retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,') + ".00";
-            if(String(n).indexOf('.') !== -1) retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,');
-
-            return retVal;
+            return (Number(n)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
         },
 

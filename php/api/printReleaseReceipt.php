@@ -12,7 +12,7 @@
 	$results = $database->fetchOutgoingTransactionProducts($data['transaction_id']);
 	//$results = $database->getPaymentRecordById($data['payment_id']);
 
-	$receiptHeight = (13 * count($results)) + 110;
+	$receiptHeight = (11 * count($results)) + 110;
 
 	//print_r($results);
 	printReceipt($results, $receiptHeight);
@@ -151,7 +151,14 @@
 
 		}
 
-		$yAxis += 12;
+		$yAxis += 8;
+		$pdf->SetY($yAxis);
+		$pdf->SetX(15);
+		$pdf->Cell(50,3,"",0, 0, 'R');
+		$pdf->Cell(10,3,"",0, 0, 'R');
+		$pdf->CellFitScale(30,3,"===============================",0, 2, 'R');
+
+		$yAxis += 4;
 		$pdf->SetY($yAxis);
 		$pdf->SetX(15);
 		$pdf->Cell(50,3,"TOTAL:",0, 0, 'R');
@@ -161,18 +168,18 @@
 		$yAxis += 12;
 		$pdf->SetY($yAxis);
 		$pdf->SetX(5);
-		$pdf->CellFitScale(100,3,"POS VENDOR: Christupets malupetic System Corporation",0, 2, 'C');
-		$pdf->CellFitScale(100,3,"Unit 1202 Asian Star Building 2402 Asean",0, 2, 'C');
-		$pdf->CellFitScale(100,3,"Drive Corner, Singapore Lane Filinvest II",0, 2, 'C');
-		$pdf->CellFitScale(100,3,"Cellphone: (63) 9178835013",0, 2, 'C');
-
-		$yAxis += 20;
+		$pdf->CellFitScale(100,3,"=================================================================",0, 2, 'C');
+		$yAxis += 14;
 		$pdf->SetY($yAxis);
 		$pdf->SetX(5);
-		$pdf->CellFitScale(100,3,"THIS INVOICE SHOULD BE VALID FOR",0, 2, 'C');
-		$pdf->CellFitScale(100,3,"FIVE(5) YEARS FROM THE DATE OF THE ",0, 2, 'C');
-		$pdf->CellFitScale(100,3,"PERMIT USE",0, 2, 'C');
-		
+		$pdf->CellFitScale(30,4,"Received By:",0, 0, 'R');
+		$pdf->CellFitScale(65,4,"",'B', 0, 'L');
+		$yAxis += 8;
+		$pdf->SetY($yAxis);
+		$pdf->SetX(5);
+		$pdf->CellFitScale(30,4,"Date:",0, 0, 'R');
+		$pdf->CellFitScale(65,4,"",'B', 0, 'L');
+
 		/*$pdf->SetFont('Arial','B',20);
 		$pdf->SetY(4);
 		$pdf->SetX(60);

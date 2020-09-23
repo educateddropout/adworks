@@ -121,63 +121,68 @@
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Product Type</b></label>
-                                        <div class="select is-fullwidth">
-                                            <select v-model="product.product_type.value">
+                                        <div class="select is-fullwidth" :class="{'is-danger' : product.product_type.error != ''}">
+                                            <select v-model="product.product_type.value" @change="validateProductType">
                                                 <option value="-1" disabled>Please Product Type</option>
-                                                <option v-for="pType in productTypeLib" :value="pType.value">{{pType.description}}</option>
+                                                <option v-for="pType in productTypeLib" :value="pType.id">{{pType.description}}</option>
                                             </select>
                                         </div>
+                                        <p class="help is-danger">{{product.product_type.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Product Name</b></label>
-                                        <input class="input upperCase" :class="" maxlength="80" type="text"
-                                            v-model = "product.name.value"
+                                        <input class="input upperCase" maxlength="80" type="text"
+                                            v-model = "product.name.value" :class="{'is-danger' : product.name.error != ''}"
+                                            @change="validateProductName"
                                         >
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{product.name.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
+
                                         <label><b>Product Description</b></label>
-                                        <textarea class="textarea upperCase" :class="" maxlength="100" 
-                                            v-model = "product.description.value" cols="2"
+                                        <textarea class="textarea upperCase" :class="{'is-danger' : product.description.error != ''}" maxlength="100" 
+                                            v-model = "product.description.value" cols="2" 
                                         ></textarea>
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{product.description.error}}</p>
+
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Supplier</b></label>
-                                        <div class="select is-fullwidth">
-                                            <select v-model="product.supplier.value">
+                                        <div class="select is-fullwidth" :class="{'is-danger' : product.supplier.error != ''}">
+                                            <select v-model="product.supplier.value"  @change="validateSupplier">
                                                 <option value="-1">Please Select Supplier</option>
                                                 <option v-for="supplier in supplierLib" :value="supplier.supplier_id">{{supplier.supplier_name}}</option>
                                             </select>
                                         </div>
+                                        <p class="help is-danger">{{product.supplier.error}}</p>
                                     </div>
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Unit</b></label>
-                                        <div class="select is-fullwidth">
-                                            <select v-model="product.unit.value">
+                                        <div class="select is-fullwidth" :class="{'is-danger' : product.unit.error != ''}">
+                                            <select v-model="product.unit.value"  @change="validateUnit">
                                                 <option value="-1">Please Select Unit</option>
-                                                <option v-for="unit in unitLib" :value="unit.value">{{unit.description}}</option>
+                                                <option v-for="unit in unitLib" :value="unit.id">{{unit.description}}</option>
                                             </select>
                                         </div>
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{product.unit.error}}</p>
                                     </div>
                                     <br>
 
                                     <div class="w3-row">
                                         <label><b>Current Price</b></label>
                                         <div class="control has-icons-left">
-                                            <input class="input upperCase" :class="" type="text"
-                                                v-model = "product.current_price.value"
+                                            <input class="input upperCase" type="text"  @change="validatePrice"
+                                                v-model = "product.current_price.value" :class="{'is-danger' : product.current_price.error != ''}"
                                             >
                                             <span class="icon is-left">
                                                 ₱
                                             </span>
                                         </div>
-                                        <p class="help is-danger"></p>
+                                        <p class="help is-danger">{{product.current_price.error}}</p>
                                     </div>
                                     <br>
                                     

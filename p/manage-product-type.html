@@ -73,7 +73,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="p,index in productTypes">
-                                            <td>{{p.id}}</td>
+                                            <td>{{index+1}}</td>
                                             <td>{{p.description}}</td>
                                             <td class="w3-center has-text-link w3-border-left pointer" @click="openUpdateProductTypeModal(index)"><i class="fas fa-edit"></i></td>
                                             <td class="w3-center has-text-danger w3-border-left pointer" @click="archiveProductType(p.id)"><i class="fas fa-trash-alt"></i></td>
@@ -96,8 +96,8 @@
                                     <br>
                                     <div class="w3-row">
                                         <label><b>Description</b></label>
-                                        <input class="input upperCase" :class="" maxlength="80" 
-                                            v-model = "productType.description.value" @keyup:enter="saveProductType"
+                                        <input class="input upperCase" :class="{'is-danger' : productType.description.error != ''}" maxlength="80" @change="validateProductTypeDescription"
+                                            v-model = "productType.description.value" @keyup.enter="saveProductType"
                                         >
                                         <p class="help is-danger">{{productType.description.error}}</p>
                                     </div>

@@ -9,6 +9,17 @@ function libUnits(){
 
 }
 
+function expiredStatusLib(){
+
+    return [
+                { 'description' : 'EXPIRED', 'value' : 1 },
+                { 'description' : 'NOT YET CONSUMED', 'value' : 2 }, 
+                { 'description' : 'CONSUMED', 'value' : 3 }
+            ];
+
+
+}
+
 function productTypeLib(){
 
     return [
@@ -57,6 +68,28 @@ function segregateStocks(quantity){
 
 
 }
+
+function segregateExpiration(expirationDate, isConsumed){
+
+    let retVal = 3;
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var eyyyy = expirationDate.substring(0,4);
+    var emm = expirationDate.substring(5,7);
+    var edd = expirationDate.substring(8,10);
+
+    if( isConsumed != 'Y' && (Number(eyyyy + emm + edd + "") < Number(yyyy + mm + dd + ""))) retVal = 1;
+    else if(isConsumed != 'Y') retVal = 2;
+
+    return retVal;
+
+
+}
+
 
 function validateIndex(value){
 
@@ -161,4 +194,55 @@ function validateLoginInput(input){
     if(input.trim().length < 1) retVal = "This is required!";
 
     return retVal;
+}
+
+function validateSelection(value){
+
+    let retVal = "";
+
+    if(value == -1){
+        retVal = "This is required!";
+    }
+
+    return retVal;
+
+}
+
+function validateName(value, requiredCtr){
+
+    let retVal = "";
+
+    if(value.trim().length < 1 && requiredCtr) retVal = "This is required!";
+    else{
+
+        if (! /^[a-zA-ZÃƒâ€˜ÃƒÂ±0-9'ÃƒÆ’.\-\s]+$/.test(value)) {
+            // Validation failed
+            msg = "Found invalid character! Please Check..";
+
+        }
+    }
+
+    return retVal;
+
+}
+
+function validateContactNumber(input){
+
+    let retVal = "";
+    inputLength = input.length;
+
+    if(! /^[0-9]+$/.test(input)){
+        retVal = "Invalid Contact Number.";
+    } else{
+
+        if(inputLength == 11 && input.substring(0,2) != '09'){
+            retVal = "Cellphone number should start in '09'.";
+        }else if(inputLength < 7){
+            retVal = "Contact number length should be 8, 9, 10, 11. Including area code.";
+        }
+        
+    }
+
+    return retVal;
+
 }

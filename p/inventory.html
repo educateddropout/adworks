@@ -103,15 +103,15 @@
                                             </thead>
                                             <tbody>
                                                 <tr v-for="product,index in sortedProducts" 
-                                                    :class="{'w3-pale-red': product.quantity == 0, 'w3-pale-green': product.quantity > 10, 'w3-pale-yellow': product.quantity > 0 && product.quantity < 10}"
+                                                    
                                                 >
                                                     <td>{{index+1}}</td>
-                                                    <td>{{product.name}}</td>
+                                                    <td :class="{'has-text-danger': product.quantity == 0, 'has-text-success': product.quantity > 10, 'has-text-warning': product.quantity > 0 && product.quantity < 10}">{{product.name}}</td>
                                                     <td>{{product.product_description}}</td>
                                                     <td>{{product.supplier_name}}</td>
                                                     <td>{{product.unit_description}}</td>
                                                     <td>₱ {{convertMoney(Number(product.current_price))}}</td>
-                                                    <td>
+                                                    <td :class="{'has-text-danger': product.quantity == 0, 'has-text-success': product.quantity > 10, 'has-text-warning': product.quantity > 0 && product.quantity < 10}">
                                                         <b><span v-if="product.quantity == 0">OUT OF STOCK</span>
                                                         <span v-else="" >{{product.quantity}}</span></b>
                                                     </td>

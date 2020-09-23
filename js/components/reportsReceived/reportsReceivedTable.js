@@ -9,7 +9,7 @@ Vue.component('reportsReceivedTable', {
                         <th :colspan="colspanH" class="w3-center">{{dateLabel}}</i></th>
                     </tr>
                     <tr class="has-background-link">
-                        <th :colspan="colspanH" class=" has-text-white ">Incoming Transactions &nbsp<i class="fas fa-boxes"></i></th>
+                        <th :colspan="colspanH" class=" has-text-white ">List of Received Products &nbsp<i class="fas fa-boxes"></i></th>
                     </tr>
                     <tr class="has-background-dark">
                         <th class=" has-text-white ">#</th>

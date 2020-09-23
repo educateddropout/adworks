@@ -41,6 +41,30 @@ var sc = new Vue({
 
 		},
 
+		validateSupplierName(){
+
+			this.supplier.name.error = validateName(this.supplier.name.value, true);
+
+		},
+
+		validateAddress(){
+
+			this.supplier.address.error = validateName(this.supplier.address.value, true);
+
+		},
+
+		validateContactNumber(){
+
+			this.supplier.contactNumber.error = validateContactNumber(this.supplier.contactNumber.value, true);
+
+		},
+
+		validateContactPerson(){
+
+			this.supplier.contactPerson.error = validateName(this.supplier.contactPerson.value, true);
+
+		},
+
 		openUpdateSupplierModal(index){
 
 			this.isOpenAddSupplierModal = true;
@@ -84,58 +108,76 @@ var sc = new Vue({
 		saveSupplier(){
 
 			let self = this;
+			this.validateSupplierName();
+			this.validateAddress();
+			this.validateContactNumber();
+			this.validateContactPerson();
 
-			axios.post('../php/api/saveSupplier.php',{
-            
-                supplier : this.supplier
-                
-            })
-            .then(function (response){
+			if(this.supplier.name.error == "" && this.supplier.address.error == "" &&
+				this.supplier.contactNumber.error == "" && this.supplier.contactPerson.error == ""){
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully saved supplier details. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+				axios.post('../php/api/saveSupplier.php',{
+	            
+	                supplier : this.supplier
+	                
+	            })
+	            .then(function (response){
 
-                self.closeAddSupplierModal();
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully saved supplier details. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	                self.closeAddSupplierModal();
+
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
 
 		},
 
 		updateSupplier(){
 
 			let self = this;
+			this.validateSupplierName();
+			this.validateAddress();
+			this.validateContactNumber();
+			this.validateContactPerson();
 
-			axios.post('../php/api/updateSupplier.php',{
-            
-                supplier : this.supplier
-                
-            })
-            .then(function (response){
+			if(this.supplier.name.error == "" && this.supplier.address.error == "" &&
+				this.supplier.contactNumber.error == "" && this.supplier.contactPerson.error == ""){
 
-                console.log(response.data);
-                if(response.data.status == "SUCCESS"){
-                    self.mMessage = "Successfully updated supplier details. Thank you!";
-                    self.mMessageType = "has-text-success";
-                } else {
-                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
-                    self.mMessageType = "has-text-danger";
-                }
+				axios.post('../php/api/updateSupplier.php',{
+	            
+	                supplier : this.supplier
+	                
+	            })
+	            .then(function (response){
 
-                self.closeAddSupplierModal();
+	                console.log(response.data);
+	                if(response.data.status == "SUCCESS"){
+	                    self.mMessage = "Successfully updated supplier details. Thank you!";
+	                    self.mMessageType = "has-text-success";
+	                } else {
+	                    self.savingModalMessage = "Error in saving. Please contact your system administrator.";
+	                    self.mMessageType = "has-text-danger";
+	                }
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	                self.closeAddSupplierModal();
+
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	            
+	        }
 
 		},
 

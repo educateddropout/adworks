@@ -18,11 +18,11 @@ $userId = $_SESSION['adi_user_id'];
 $returnValue = array();
 $returnValue["status"] = "ERROR";
 
-$product_id = $data['product_id'];
+$product_type_id = $data['product_type_id'];
 
 try {
 
-	$results = $database->archiveProductType($product_id, $userId);
+	$results = $database->archiveProductType($product_type_id, $userId);
 	$returnValue["status"] = "SUCCESS";
 	$returnValue["message"] = $results;
 

@@ -190,7 +190,7 @@
                                                                 <td>{{prod.name}}</td>
                                                                 <td>{{prod.quantity}}</td>
                                                                 <td>{{prod.unit}}</td>
-                                                                <td>₱{{convertMoney(prod.product_price)}}</td>
+                                                                <td>₱{{prod.product_price}}</td>
                                                                 <td>₱{{convertMoney(prod.amount)}}</td>
                                                                 <td class="w3-center has-text-danger w3-border-left pointer" @click="deleteProduct(index)" v-if="isForAdding"><i class="fas fa-trash-alt"></i></td>
                                                             </tr>
