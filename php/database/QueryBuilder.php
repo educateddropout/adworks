@@ -15,6 +15,82 @@ class QueryBuilder
 
 	}
 
+	public function updateProducts($productId, $quantity){
+
+		$archive = 1; // active
+
+		$statement = $this->pdo->prepare("UPDATE tbl_products
+												SET quantity = ?
+												WHERE product_id = ?");
+
+		$statement->execute([$quantity, $productId]);
+
+		return $statement->rowCount();
+
+	}
+
+	public function fetchOutgoingDeletedTransactions(){
+
+		$archive = 1; // active
+
+		$statement = $this->pdo->prepare("SELECT r.product_id, r.quantity, p.name, p.quantity as 'inventory_quantity' FROM tbl_products_released r
+												LEFT JOIN tbl_products p ON p.product_id = r.product_id 
+
+
+										WHERE r.archive = ?");
+
+		$statement->execute([$archive]);
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function fetchOutgoingDeletedProducts($transaction_id){
+
+
+		$statement = $this->pdo->prepare("SELECT r.product_id, r.quantity, p.name, p.quantity as 'inventory_quantity' FROM tbl_products_released r
+												LEFT JOIN tbl_products p ON p.product_id = r.product_id 
+
+
+										WHERE r.transaction_id = ?");
+
+		$statement->execute([$transaction_id]);
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function fetchIncomingDeletedTransactions(){
+
+		$archive = 1; // active
+
+		$statement = $this->pdo->prepare("SELECT r.product_id, r.quantity, p.name, p.quantity as 'inventory_quantity' FROM tbl_products_received r
+												LEFT JOIN tbl_products p ON p.product_id = r.product_id 
+
+
+										WHERE r.archive = ?");
+
+		$statement->execute([$archive]);
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function fetchIncomingDeletedProducts($transaction_id){
+
+
+		$statement = $this->pdo->prepare("SELECT r.product_id, r.quantity, p.name, p.quantity as 'inventory_quantity' FROM tbl_products_received r
+												LEFT JOIN tbl_products p ON p.product_id = r.product_id 
+
+
+										WHERE r.transaction_id = ?");
+
+		$statement->execute([$transaction_id]);
+
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
 	public function checkIfUsernameExist($username){
 
 		$archive = 0; // active

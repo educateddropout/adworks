@@ -10,12 +10,14 @@ var sc = new Vue({
 		pageCounter : 2,
 		userData : {},
 		productLib : [],
+		unitLib : libUnits(),
 		
 
-		productTypes : { 'value' : [1,2,3,4,5] } ,
+		productTypes : { 'value' : [] } ,
 		stockTypes : { 'value' : [1,2,3] },
         supplierTypes : { 'value' : [] },
         supplierLib : {},
+        productTypeLib : [],
 
 		sortedBy : 2, // sorted by p type and name
 
@@ -29,6 +31,7 @@ var sc = new Vue({
 
 		this.fetchProducts();
         this.fetchSuppliers();
+        this.fetchProductType();
 	},
 
 	computed: {
@@ -39,7 +42,7 @@ var sc = new Vue({
 
                 let searchHash = p.name;
 
-                return this.productTypes.value.includes(Number(p.product_type)) && 
+                return this.productTypes.value.includes(p.product_type) && 
                         this.supplierTypes.value.includes(p.supplier_id) &&
                 		this.stockTypes.value.includes(segregateStocks(p.quantity)) &&
                 		searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
@@ -100,6 +103,29 @@ var sc = new Vue({
             });
 
 		},
+
+        fetchProductType(){
+
+            let self = this;
+            axios.post('../php/api/fetchProductType.php',{
+            })
+            .then(function (response){
+
+                console.log(response.data);
+                if(response.data.status == "SUCCESS"){
+
+                    self.productTypeLib = response.data.message;
+                    response.data.message.forEach(function (s){
+                        self.productTypes.value.push(s.id);
+                    });                    
+
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        },
 
 		convertMoney(n){
 

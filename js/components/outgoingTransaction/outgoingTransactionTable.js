@@ -39,6 +39,7 @@ Vue.component('outgoingTransactionTable', {
                         <td @click="openViewModal(index)">
                             <span v-if="t.branch == 'K'">Kamuning</span>
                             <span v-else-if="t.branch == 'M'">Makati</span>
+                            <span v-else-if="t.branch == 'D'">Dental Arts</span>
                         </td>
                         <td @click="openViewModal(index)">{{t.name}}</td>
                         <td @click="openViewModal(index)">&#8369;{{convertMoney(t.total_amount)}}</td>
@@ -110,10 +111,7 @@ Vue.component('outgoingTransactionTable', {
 
         convertMoney(n){
 
-            let retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,') + ".00";
-            if(String(n).indexOf('.') !== -1) retVal = String(n).replace(/(.)(?=(\d{3})+$)/g,'$1,');
-
-            return retVal;
+            return (Number(n)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
         },
 

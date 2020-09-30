@@ -1,5 +1,5 @@
 Vue.component('filterInventory', {
-	props: ['productTypes', 'stockTypes', 'supplierTypes', 'supplierLib'],
+	props: ['productTypes', 'stockTypes', 'supplierTypes', 'supplierLib','productTypeLib'],
 	template: `
     
         <div>
@@ -13,37 +13,33 @@ Vue.component('filterInventory', {
             <div class="w3-col l9 w3-leftbar w3-border-blue  w3-pale-blue">
                 
                 <div class="w3-row w3-border-bottom w3-border-blue">
-                    <div class="row w3-margin ">
-                        <div class="columns">
-                            <div class="column" v-for="pt in productTypeLib">
-                                <div class="w3-row">
-                                    <div class="w3-col l3">
-                                        <input class="w3-check pointer" type="checkbox" :id="pt.description" :value="pt.value" v-model="productTypes.value" >
-                                    </div>
-                                    <div class="w3-col l9">
-                                        <label class="pointer" :for="pt.description">{{pt.description}}</label>&nbsp&nbsp
-                                    </div>
+                    <div class="w3-row w3-margin ">
+                        <div class="w3-third" v-for="pt in productTypeLib">
+                            <div class="w3-row">
+                                <div class="w3-col l3">
+                                    <input class="w3-check pointer" type="checkbox" :id="pt.description" :value="pt.id" v-model="productTypes.value" >
                                 </div>
-                                
+                                <div class="w3-col l9">
+                                    <label class="pointer" :for="pt.description">{{pt.description}}</label>&nbsp&nbsp
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
 
                 <div class="w3-row w3-border-bottom w3-border-blue">
-                    <div class="row w3-margin">
-                        <div class="columns">
-                            <div class="column" v-for="s in supplierLib">
-                                <div class="w3-row">
-                                    <div class="w3-col l3">
-                                        <input class="w3-check pointer" type="checkbox" :id="s.supplier_name" :value="s.supplier_id" v-model="supplierTypes.value" >
-                                    </div>
-                                    <div class="w3-col l9">
-                                        <label class="pointer" :for="s.supplier_name">{{s.supplier_name}}</label>&nbsp&nbsp
-                                    </div>
+                    <div class="w3-row w3-margin">
+                        <div class="w3-quarter" v-for="s in supplierLib">
+                            <div class="w3-row">
+                                <div class="w3-col l3">
+                                    <input class="w3-check pointer" type="checkbox" :id="s.supplier_name" :value="s.supplier_id" v-model="supplierTypes.value" >
                                 </div>
-                                
+                                <div class="w3-col l9">
+                                    <label class="pointer" :for="s.supplier_name">{{s.supplier_name}}</label>&nbsp&nbsp
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -78,7 +74,6 @@ Vue.component('filterInventory', {
         return {
 
             isShowFilters : false,
-            productTypeLib : productTypeLib(),
             stockLib : stockLib(),
 
         }

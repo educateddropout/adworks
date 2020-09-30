@@ -88,7 +88,7 @@
                                 <div class="modal-content modal-card">
 
                                     <header class="modal-card-head">
-                                        <p class="modal-card-title"><b>Add Incoming Supplies</b></p>
+                                        <p class="modal-card-title"><b>Add Incoming Transaction</b></p>
                                         <button class="modal-button-close delete" @click="closeModal" aria-label="close"></button>
                                     </header>
                                     <section class="modal-card-body">
@@ -190,7 +190,7 @@
                                                                 <td>{{prod.name}}</td>
                                                                 <td>{{prod.quantity}}</td>
                                                                 <td>{{prod.unit}}</td>
-                                                                <td>₱{{prod.product_price}}</td>
+                                                                <td>₱{{convertMoney(prod.product_price)}}</td>
                                                                 <td>₱{{convertMoney(prod.amount)}}</td>
                                                                 <td class="w3-center has-text-danger w3-border-left pointer" @click="deleteProduct(index)" v-if="isForAdding"><i class="fas fa-trash-alt"></i></td>
                                                             </tr>

@@ -158,10 +158,10 @@ Vue.component('incomingTransactionTable', {
 
                         self.voidTransaction(self.selectedId);
                         self.username = "";
-                    self.usernameError = "";
-                    self.password = "";
-                    self.passwordError = "";
-                    self.authenticationError = "";
+                        self.usernameError = "";
+                        self.password = "";
+                        self.passwordError = "";
+                        self.authenticationError = "";
                         
                     }
                     else{

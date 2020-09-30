@@ -24,6 +24,33 @@ $transaction_type = $data['transaction_type'];
 try {
 
 	$results = $database->voidTransaction($transaction_id, $userId, $transaction_type);
+
+	if($transaction_type == 'O'){
+		$results = $database->fetchOutgoingDeletedProducts($transaction_id);
+
+		foreach ($results as $r) {
+
+		    $total = $r['inventory_quantity'] + $r['quantity'];
+
+		    $rd = $database->updateProducts($r['product_id'], $total);
+		    
+		}
+
+	}
+
+	if($transaction_type == 'I'){
+		$results = $database->fetchIncomingDeletedProducts($transaction_id);
+
+		foreach ($results as $r) {
+
+		    $total = $r['inventory_quantity'] - $r['quantity'];
+
+		    $rd = $database->updateProducts($r['product_id'], $total);
+		    
+		}
+		
+	}
+
 	$returnValue["status"] = "SUCCESS";
 	$returnValue["message"] = $results;
 
