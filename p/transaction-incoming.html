@@ -97,7 +97,32 @@
                                             <div class="w3-col l1">&nbsp</div>
                                             <div class="w3-col l10" >
                                                 
-                                                <div class="w3-row-padding" v-if="isForAdding">
+
+                                                <div class="w3-row-padding" >
+                                                    
+
+                                                    <div class="w3-col l3">
+                                                        <div class="field">
+                                                            <div class="control has-icons-left has-icons-right">
+                                                                <input class="input upperCase" :class="" maxlength="10" type="number" 
+                                                                    v-model="shippingFee.value" :disabled = "!isForAdding"
+                                                                >
+                                                                <span class="icon is-left">
+                                                                    ₱
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <p class="help"><b>Shipping Fee</b></p>
+                                                        <p class="help is-danger">{{shippingFee.error}}</p>
+                                                    </div>
+
+                                                </div>
+                                                            
+                                                
+
+                                                <div class="w3-row-padding" v-if="isForAdding" v-show="showProducts">
+                                                    <div class="is-divider" v-if="isForAdding"></div>
                                                     <div class="w3-col l3">
                                                         <div class="select is-fullwidth" >
                                                             <select v-model="product.index.value" @change="selectProduct" ref="productSelect">
@@ -158,9 +183,10 @@
                                                 </div>
                                                 
 
-                                                <div class="is-divider" data-content="PRODUCTS"></div>
+                                                
                                                 
                                                 <div class="w3-row w3-container" v-show="transaction.products.length > 0">
+                                                    <div class="is-divider" data-content="PRODUCTS"></div>
                                                     <table class="table is-fullwidth is-hoverable is-striped w3-border w3-round ">
                                                         <thead>
                                                             <tr class="has-background-dark">
@@ -227,6 +253,7 @@
                             <product-detail-modal
                                 :products = "transaction.products"
                                 :is-active = "isActiveProductModal"
+                                :shipping-fee = "shippingFee.value"
 
                                 @save-transaction="saveIncomingTransaction"
                                 @close="closeProductDetails"

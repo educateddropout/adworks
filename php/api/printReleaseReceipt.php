@@ -12,13 +12,13 @@
 	$results = $database->fetchOutgoingTransactionProducts($data['transaction_id']);
 	//$results = $database->getPaymentRecordById($data['payment_id']);
 
-	$receiptHeight = (11 * count($results)) + 110;
+	$receiptHeight = (11 * count($results)) + 135;
 
 	//print_r($results);
-	printReceipt($results, $receiptHeight);
+	printReceipt($results, $receiptHeight, $data['shipping_fee']);
 
 
-	function printReceipt($data, $receiptHeight){
+	function printReceipt($data, $receiptHeight, $shippingFee){
 
 		require("../lib/fpdf/fpdf.php");
 
@@ -150,6 +150,15 @@
 			$totalAmount += $d["amount"];
 
 		}
+
+		$yAxis += 7;
+		$pdf->SetY($yAxis);
+		$pdf->SetX(5);
+		$pdf->CellFitScale(50,3,"SHIPPING FEE",0, 0, 'L');
+		$pdf->Cell(20,3," -  -  -  -  -  -  -  -",0, 0, 'L');
+		$pdf->CellFitScale(30,3,'P'.number_format($shippingFee,2,'.',','),0, 2, 'R');
+
+		$totalAmount += $shippingFee;
 
 		$yAxis += 8;
 		$pdf->SetY($yAxis);

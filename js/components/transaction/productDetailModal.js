@@ -1,5 +1,5 @@
 Vue.component('productDetailModal', {
-	props: ['products', 'isActive', 'notForSaving'],
+	props: ['products', 'isActive', 'notForSaving', 'shippingFee'],
 	template: `
 		
 		<div class="modal" :class="{'is-active':isActive}">
@@ -47,6 +47,10 @@ Vue.component('productDetailModal', {
                                     <td class="w3-border-right">&#8369;{{convertMoney(prod.product_price)}}</td>
                                     <td class="w3-border-right">&#8369;{{convertMoney(prod.amount)}}</td>
                                 </tr>
+                                <tr>
+                                    <td class="w3-border-right w3-right-align" colspan="5"> Shipping Fee</td>
+                                    <td class="w3-border-right">&#8369;{{convertMoney(shippingFee)}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -72,7 +76,7 @@ Vue.component('productDetailModal', {
 
                 return accumulator + Number(p.amount);
 
-            }, 0);
+            }, 0) + Number(this.shippingFee);
 
         },
 

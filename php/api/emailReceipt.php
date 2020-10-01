@@ -26,15 +26,20 @@ $email->isHTML(true);
 if($branchCtr == 'K'){
 	$branchName = "Kamuning";
 	$branchEmail = "kamuningbranch@ampongdental.com";
-} else {
+} else if($branchCtr == "M") {
 	$branchName = "Makati";
 	$branchEmail = "makatibranch@ampongdental.com";
+} else if($branchCtr == "D") {
+	$branchName = "Dental Arts";
+	$branchEmail = "dentalartscorp@gmail.com";
 }
+
+//$subject = "Inventory Receipt " . $date;
 
 $subject = "Inventory Receipt " . $date;
 
 $email->addEmbeddedImage('../../assets/images/ad_logo.png', 'image_cid');
-$email->SetFrom('admin@ampongdental.com', 'Ampong Dental Admin'); //Name is optional
+$email->SetFrom('headoffice.ampong@gmail.com', 'Ampong Dental Admin'); //Name is optional
 $email->Subject   = $subject;
 
 $email->Body      = "<img src='cid:image_cid'>

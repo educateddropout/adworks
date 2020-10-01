@@ -18,10 +18,11 @@ $returnValue["status"] = "ERROR";
 
 $incomingProducts = $data['products'];
 $totalAmount = $data['total_amount'];
+$shippingFee = $data['shippingFee'];
 
 try {
 
-	$results = $database->saveIncomingTransactions($incomingProducts, $userId, $totalAmount);
+	$results = $database->saveIncomingTransactions($incomingProducts, $userId, $totalAmount, $shippingFee);
 	
 	if($results == 1) $returnValue["status"] = "SUCCESS";
 	else {

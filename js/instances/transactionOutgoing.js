@@ -20,6 +20,7 @@ var sc = new Vue({
 			amount : { 'value' : 0, 'error' : ''},
 		},
 		branch : { value : -1, error : ''},
+		shippingFee : { value : '', error : ''},
 		transaction : { 
 			products : []
 		},
@@ -57,6 +58,17 @@ var sc = new Vue({
             }, 0);
 
         },
+
+        showProducts(){
+
+        	var retVal = true;
+
+        	if(this.branch.value == -1) retVal = false;
+        	if(this.shippingFee.value == "") retVal = false;
+
+        	return retVal;
+
+        }
 
 	},
 
@@ -176,6 +188,7 @@ var sc = new Vue({
 		openAddModal(){
 
 			this.branch = { value : -1, error : ''};
+			this.shippingFee = { value : '', error : ''};
 			this.isOpenAddModal = true;
 			this.isForAdding = true;
 
@@ -205,7 +218,8 @@ var sc = new Vue({
 			axios.post('../php/api/saveOutgoingTransactions.php',{
             
                 products : this.transaction.products,
-                branch : this.branch.value
+                branch : this.branch.value,
+                shippingFee : this.shippingFee.value
 
                 
             })
@@ -316,6 +330,7 @@ var sc = new Vue({
             
             axios.post('../php/api/printReleaseReceipt.php', {
                 transaction_id : this.outgoingTransactions[index].transaction_id,
+                shipping_fee : this.outgoingTransactions[index].shipping_fee
             })
             .then(function (response){
 

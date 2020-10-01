@@ -127,20 +127,20 @@ class QueryBuilder
 
 	}
 
-	public function saveIncomingTransactions($products, $userId, $total_amount){
+	public function saveIncomingTransactions($products, $userId, $total_amount, $shippingFee){
 		
 		$archive = 0; // active
 		$currentDate = date("Y-m-d H:i:s");
 		$transaction_id = guidv4();
 		$type_of_transaction = "I";
-
+		$total_amount += $shippingFee;
 
 		$statement = $this->pdo->prepare("INSERT INTO tbl_transactions
-												(transaction_id, last_modified, last_modified_by, type_of_transaction, total_amount,
+												(transaction_id, last_modified, last_modified_by, type_of_transaction, total_amount, shipping_fee,
 												archive)
-											VALUES (?,?,?,?,?,?)");
+											VALUES (?,?,?,?,?,?,?)");
 
-		$statement->execute([$transaction_id, $currentDate, $userId, $type_of_transaction, $total_amount, $archive]);
+		$statement->execute([$transaction_id, $currentDate, $userId, $type_of_transaction, $total_amount, $shippingFee, $archive]);
 
 
 		foreach ($products as $prod) {
@@ -180,13 +180,13 @@ class QueryBuilder
 
 	}
 
-	public function saveOutgoingTransactions($products, $userId, $branch){
+	public function saveOutgoingTransactions($products, $userId, $branch, $shippingFee){
 		
 		$archive = 0; // active
 		$currentDate = date("Y-m-d H:i:s");
 		$transaction_id = guidv4();
 		$type_of_transaction = "O";
-		$total_amount = 0;
+		$total_amount = $shippingFee;
 
 
 		foreach ($products as $prod) {
@@ -226,10 +226,10 @@ class QueryBuilder
 
 		$statement = $this->pdo->prepare("INSERT INTO tbl_transactions
 												(transaction_id, last_modified, last_modified_by, type_of_transaction, branch,
-												archive, total_amount)
-											VALUES (?,?,?,?,?,?,?)");
+												archive, total_amount, shipping_fee)
+											VALUES (?,?,?,?,?,?,?,?)");
 
-		$statement->execute([$transaction_id, $currentDate, $userId, $type_of_transaction, $branch, $archive, $total_amount]);
+		$statement->execute([$transaction_id, $currentDate, $userId, $type_of_transaction, $branch, $archive, $total_amount, $shippingFee]);
 
 		
 
@@ -341,7 +341,7 @@ class QueryBuilder
 		$type_of_transaction = "I"; // active
 
 		$statement = $this->pdo->prepare("SELECT t.transaction_id, t.type_of_transaction, t.total_amount, t.last_modified, 
-												t.last_modified_by, u.name, DATE(t.last_modified) AS date
+												t.last_modified_by, u.name, DATE(t.last_modified) AS date, t.shipping_fee
 											FROM tbl_transactions t
 												LEFT JOIN tbl_users u ON u.user_id = t.last_modified_by
 											WHERE t.archive = ? and t.type_of_transaction = ?
@@ -360,7 +360,7 @@ class QueryBuilder
 		$type_of_transaction = "O"; // active
 
 		$statement = $this->pdo->prepare("SELECT t.transaction_id, t.type_of_transaction, t.total_amount, t.last_modified, 
-												t.last_modified_by, u.name, t.branch, DATE(t.last_modified) AS date
+												t.last_modified_by, u.name, t.branch, DATE(t.last_modified) AS date, t.shipping_fee
 											FROM tbl_transactions t
 												LEFT JOIN tbl_users u ON u.user_id = t.last_modified_by
 											WHERE t.archive = ? AND t.type_of_transaction = ?

@@ -18,6 +18,7 @@ var sc = new Vue({
 			unit : { 'value' : '', 'error' : '' },
 			expirationDate : {'value' : '', 'error' : ''}
 		},
+		shippingFee : { value : '', error : ''},
 		transaction : { 
 			products : []
 		},
@@ -54,6 +55,17 @@ var sc = new Vue({
             }, 0);
 
         },
+
+
+        showProducts(){
+
+        	var retVal = true;
+
+        	if(this.shippingFee.value == "") retVal = false;
+
+        	return retVal;
+
+        }
 
 	},
 
@@ -148,6 +160,7 @@ var sc = new Vue({
 
 		openViewModal(index){
 
+			this.shippingFee.value = this.incomingTransactions[index].shipping_fee;
 			this.isOpenAddModal = true;
 			this.isForAdding = false;
 			this.fetchIncomingTransactionProducts(index);
@@ -156,6 +169,7 @@ var sc = new Vue({
 
 		closeModal(){
 
+			this.shippingFee = { value : "", error : ""};
 			this.isOpenAddModal = false;
 			this.transaction.products = [];
 
@@ -170,7 +184,8 @@ var sc = new Vue({
 			axios.post('../php/api/saveIncomingTransactions.php',{
             
                 products : this.transaction.products,
-                total_amount : this.totalAmount
+                total_amount : this.totalAmount,
+                shippingFee : this.shippingFee.value
 
                 
             })
