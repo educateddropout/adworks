@@ -49,8 +49,8 @@
                             
                             <div class="w3-container">
                                 <div class="w3-row- w3-center">
-                                    <div class="w3-col l3">&nbsp</div>
-                                    <div class="w3-col l6">
+                                    <div class="w3-col l2">&nbsp</div>
+                                    <div class="w3-col l8">
                                         <div class="w3-row w3-center">
                                             <div class="select" >
                                                 <select @change="fetchCostSummary" v-model="numberOfMonths">
@@ -79,6 +79,7 @@
                                                         <th class=" has-text-white ">Kamuning</th>
                                                         <th class=" has-text-white ">Makati</th>
                                                         <th class=" has-text-white ">Dental Arts</th>
+                                                        <th class=" has-text-white ">Ecodent</th>
                                                         <th class=" has-text-white ">Total</th>
                                                     </tr>
                                                     
@@ -89,6 +90,7 @@
                                                         <th>₱ {{convertMoney(totalKamuning)}}</th>
                                                         <th>₱ {{convertMoney(totalMakati)}}</th>
                                                         <th>₱ {{convertMoney(totalLab)}}</th>
+                                                        <th>₱ {{convertMoney(totalEcodent)}}</th>
                                                         <th>₱ {{convertMoney(totalTotal)}}</th>
                                                     </tr>
                                                 </tfoot>
@@ -99,13 +101,14 @@
                                                         <td>₱ {{convertMoney(kData[index])}}</td>
                                                         <td>₱ {{convertMoney(mData[index])}}</td>
                                                         <td>₱ {{convertMoney(lData[index])}}</td>
+                                                        <td>₱ {{convertMoney(eData[index])}}</td>
                                                         <td class="has-background-grey-light">₱ {{convertMoney(total[index])}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="w3-col l3">&nbsp</div>
+                                    <div class="w3-col l2">&nbsp</div>
                                 </div>
                             </div>
 

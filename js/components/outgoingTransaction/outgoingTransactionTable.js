@@ -40,6 +40,7 @@ Vue.component('outgoingTransactionTable', {
                             <span v-if="t.branch == 'K'">Kamuning</span>
                             <span v-else-if="t.branch == 'M'">Makati</span>
                             <span v-else-if="t.branch == 'D'">Dental Arts</span>
+                            <span v-else-if="t.branch == 'E'">Ecodent</span>
                         </td>
                         <td @click="openViewModal(index)">{{t.name}}</td>
                         <td @click="openViewModal(index)">&#8369;{{convertMoney(t.total_amount)}}</td>

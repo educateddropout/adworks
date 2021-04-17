@@ -53,7 +53,8 @@ function branchLib(){
 
                 { 'description' : 'KAMUNING', 'value' : 'K' },
                 { 'description' : 'MAKATI', 'value' : 'M' }, 
-                { 'description' : 'DENTAL ARTS', 'value' : 'D' }
+                { 'description' : 'DENTAL ARTS', 'value' : 'D' },
+                { 'description' : 'ECODENT', 'value' : 'E' }
 
             ];
 

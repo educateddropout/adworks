@@ -3,7 +3,7 @@ Vue.component('reportsReceivedTable', {
     template: `
         
         <div class="w3-row" >
-			{{totalQuantity}}
+			<!-- {{totalQuantity}} -->
             <table class="table is-fullwidth is-hoverable is-striped w3-border w3-round ">
                 <thead>
                     <tr class="has-background-info w3-center">

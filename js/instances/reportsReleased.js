@@ -11,7 +11,7 @@ var sc = new Vue({
 		userData : {},
 		
 		releasedProducts : [],
-		branchTypes : { 'value' : ["K","M", "D"] },
+		branchTypes : { 'value' : ["K","M", "D", "E"] },
 
 		dateLabel : "",
 		dateTo : "",

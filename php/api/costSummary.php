@@ -23,6 +23,7 @@ try{
 	$resultsKamuning = $database->fetchCostSummary($numberOfMonths, "K");
 	$resultsMakati = $database->fetchCostSummary($numberOfMonths, "M");
 	$resultsDentalArts = $database->fetchCostSummary($numberOfMonths, "D");
+	$resultsEcodent = $database->fetchCostSummary($numberOfMonths, "E");
 
 	$dateTime = new DateTime('first day of this month');
 	$dateTime->modify('-'.($numberOfMonths-1).' month');
@@ -42,6 +43,7 @@ try{
 	$kData = array();
 	$mData = array();
 	$lData = array();
+	$eData = array();
 
 	$total = array();
 
@@ -66,10 +68,16 @@ try{
 	    	if($y == $rm['year'] && $m == $rm['month']) $lAmount = $rm['total_amount'];;
 	    }
 
+	    $eAmount = 0;
+	    foreach ($resultsEcodent as $rm) {
+	    	if($y == $rm['year'] && $m == $rm['month']) $eAmount = $rm['total_amount'];;
+	    }
+
 	    array_push($kData, $kAmount);
 	    array_push($mData, $mAmount);
 	    array_push($lData, $lAmount);
-	    array_push($total, $kAmount + $mAmount + $lAmount);
+	    array_push($eData, $eAmount);
+	    array_push($total, $kAmount + $mAmount + $lAmount + $eAmount);
 
 
 	}
@@ -78,6 +86,7 @@ try{
 	$returnValue['message']['kData'] = $kData;
 	$returnValue['message']['mData'] = $mData;
 	$returnValue['message']['lData'] = $lData;
+	$returnValue['message']['eData'] = $eData;
 	$returnValue['message']['total'] = $total;
 
 

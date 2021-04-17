@@ -14,6 +14,7 @@ var sc = new Vue({
 		kData : [0,0,0,0,0,0],
 		mData : [0,0,0,0,0,0],
 		lData : [0,0,0,0,0,0],
+		eData : [0,0,0,0,0,0],
 		total : [0,0,0,0,0,0]
 
 		
@@ -31,26 +32,30 @@ var sc = new Vue({
 		},
 
 		totalKamuning(){
-			return this.kData.reduce(function(a, b){	return a+Number(b)});
+			return this.kData.reduce(function(a, b){	return Number(a)+Number(b)});
 		},
 
 		totalMakati(){
-			return this.mData.reduce(function(a, b){	return a+Number(b)});
+			return this.mData.reduce(function(a, b){	return Number(a)+Number(b)});
 		},
 
 		totalLab(){
-			return this.lData.reduce(function(a, b){	return a+Number(b)});
+			return this.lData.reduce(function(a, b){	return Number(a)+Number(b)});
+		},
+
+		totalEcodent(){
+			return this.eData.reduce(function(a, b){	return Number(a)+Number(b)});
 		},
 
 		totalTotal(){
-			return this.total.reduce(function(a, b){	return a+Number(b)});
+			return this.total.reduce(function(a, b){	return Number(a)+Number(b)});
 		}
 
 	},
 
 	methods: {
 
-		createChart(numberOfMonths, kData, mData, lData){
+		createChart(numberOfMonths, kData, mData, lData, eData){
 			
 			const ctx = document.getElementById('myChart').getContext('2d');
 			const chart =  new Chart(ctx, {
@@ -72,6 +77,10 @@ var sc = new Vue({
 			            label: 'Dental Arts',
 			            borderColor: 'rgb(0, 191, 255)',
 			            data: lData
+			        },{
+			            label: 'Ecodent',
+			            borderColor: 'rgb(150, 101, 230)',
+			            data: eData
 			        }]
 			    },
 
@@ -100,10 +109,11 @@ var sc = new Vue({
                     self.kData = response.data.message.kData;
                     self.mData = response.data.message.mData;
                     self.lData = response.data.message.lData;
+                    self.eData = response.data.message.eData
                     self.total = response.data.message.total;
                     console.log(response.data.message.kData);
                     console.log(response.data.message.mData);
-                    self.createChart(self.numberOfMonths, response.data.message.kData, response.data.message.mData, response.data.message.lData);                  
+                    self.createChart(self.numberOfMonths, response.data.message.kData, response.data.message.mData, response.data.message.lData, response.data.message.eData);                  
                 }
             })
             .catch(function (error) {
