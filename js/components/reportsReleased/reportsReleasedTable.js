@@ -3,6 +3,7 @@ Vue.component('reportsReleasedTable', {
     template: `
         
         <div class="w3-row" >
+			{{totalQuantity}}
             <table class="table is-fullwidth is-hoverable is-striped w3-border w3-round ">
                 <thead>
                     <tr class="has-background-info w3-center">
@@ -140,6 +141,18 @@ Vue.component('reportsReleasedTable', {
             }, 0);
 
         },
+
+        totalQuantity(){
+
+            
+            return this.data.reduce(function (accumulator, p) {
+
+                return accumulator + Number(p.quantity);
+
+            }, 0);
+
+        },
+
 
         colspanH(){
             

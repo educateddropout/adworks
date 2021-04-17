@@ -25,7 +25,8 @@ var sc = new Vue({
 		productTypeLib : [],
 		mMessage : "",
 		mMessageType : "",
-		isForAdding : true
+		isForAdding : true,
+		searchInput : ""
 
 
 		
@@ -39,6 +40,22 @@ var sc = new Vue({
 		this.fetchUnits();
 
 	},
+
+	computed: {
+
+		filteredProductLib(){
+
+            return this.productLib.filter(p => {
+
+            	let searchHash = p.name;
+
+                return searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
+
+            });
+            
+        },
+
+    },
 
 	methods: {
 
@@ -90,12 +107,12 @@ var sc = new Vue({
 			this.isOpenAddProductModal = true;
 			this.isForAdding = false;
 
-			this.product.id.value = this.productLib[index].product_id;
-			this.product.name.value = this.productLib[index].name;
-			this.product.supplier.value = this.productLib[index].supplier_id
-			this.product.unit.value = this.productLib[index].unit;
-			this.product.product_type.value = this.productLib[index].product_type;
-			this.product.current_price.value = this.productLib[index].current_price;
+			this.product.id.value = this.filteredProductLib[index].product_id;
+			this.product.name.value = this.filteredProductLib[index].name;
+			this.product.supplier.value = this.filteredProductLib[index].supplier_id
+			this.product.unit.value = this.filteredProductLib[index].unit;
+			this.product.product_type.value = this.filteredProductLib[index].product_type;
+			this.product.current_price.value = this.filteredProductLib[index].current_price;
 
 			
 		},

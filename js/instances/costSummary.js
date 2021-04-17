@@ -7,16 +7,14 @@ var sc = new Vue({
 
 	data: {
 		
-		pageCounter : 34,
+		pageCounter : 54,
 		userData : {},
 
 		numberOfMonths : 6,
 		kData : [0,0,0,0,0,0],
 		mData : [0,0,0,0,0,0],
+		lData : [0,0,0,0,0,0],
 		total : [0,0,0,0,0,0]
-
-
-
 
 		
 	},
@@ -40,6 +38,10 @@ var sc = new Vue({
 			return this.mData.reduce(function(a, b){	return a+Number(b)});
 		},
 
+		totalLab(){
+			return this.lData.reduce(function(a, b){	return a+Number(b)});
+		},
+
 		totalTotal(){
 			return this.total.reduce(function(a, b){	return a+Number(b)});
 		}
@@ -48,7 +50,7 @@ var sc = new Vue({
 
 	methods: {
 
-		createChart(numberOfMonths, kData, mData){
+		createChart(numberOfMonths, kData, mData, lData){
 			
 			const ctx = document.getElementById('myChart').getContext('2d');
 			const chart =  new Chart(ctx, {
@@ -66,6 +68,10 @@ var sc = new Vue({
 			            label: 'Makati Branch',
 			            borderColor: 'rgb(100, 70, 21)',
 			            data: mData
+			        },{
+			            label: 'Dental Arts',
+			            borderColor: 'rgb(0, 191, 255)',
+			            data: lData
 			        }]
 			    },
 
@@ -93,10 +99,11 @@ var sc = new Vue({
                 if(response.data.status == "SUCCESS"){
                     self.kData = response.data.message.kData;
                     self.mData = response.data.message.mData;
+                    self.lData = response.data.message.lData;
                     self.total = response.data.message.total;
                     console.log(response.data.message.kData);
                     console.log(response.data.message.mData);
-                    self.createChart(self.numberOfMonths, response.data.message.kData, response.data.message.mData);                  
+                    self.createChart(self.numberOfMonths, response.data.message.kData, response.data.message.mData, response.data.message.lData);                  
                 }
             })
             .catch(function (error) {

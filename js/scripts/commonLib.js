@@ -39,7 +39,8 @@ function stockLib(){
 
                 { 'description' : 'OUT OF STOCK', 'value' : 1 },
                 { 'description' : 'LOW SUPPLIES', 'value' : 2 }, 
-                { 'description' : 'HIGH SUPPLIES', 'value' : 3 }
+                { 'description' : 'HIGH SUPPLIES', 'value' : 3 },
+		{ 'description' : 'NEGATIVES', 'value' : 4 }
 
             ];
 
@@ -63,7 +64,8 @@ function segregateStocks(quantity){
     let retVal = 3;
 
     if(Number(quantity) == 0) retVal = 1;
-    else if(Number(quantity) < 11) retVal = 2;
+    else if(Number(quantity) < 11 && Number(quantity) > 0) retVal = 2;
+    else if(Number(quantity) < 0) retVal = 4;
 
     return retVal;
 

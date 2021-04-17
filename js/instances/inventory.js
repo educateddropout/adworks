@@ -14,7 +14,7 @@ var sc = new Vue({
 		
 
 		productTypes : { 'value' : [] } ,
-		stockTypes : { 'value' : [1,2,3] },
+		stockTypes : { 'value' : [1,2,3,4] },
         supplierTypes : { 'value' : [] },
         supplierLib : {},
         productTypeLib : [],

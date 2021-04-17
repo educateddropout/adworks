@@ -106,9 +106,12 @@ Vue.component('datesSelection', {
 	},
 
 
+
+
 	methods : {
 
 		getRecords(selected){
+
 
 			let date_from = "";
 			let date_to = "";
@@ -118,7 +121,7 @@ Vue.component('datesSelection', {
 			this.selectedHistory = selected;
 
 			if(selected == 1){
-				month = month.length == 2 ? month : "0"+ month;
+				month = month > 9 ? month : "0"+ month;
 				date_from = year + "-" + month + "-01";
 				date_to = year + "-" + month + "-" + getLastDayOfTheMonth(month,year);
 			}

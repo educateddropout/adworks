@@ -27,6 +27,7 @@ var sc = new Vue({
 
             return this.releasedProducts.filter(p => {
 
+
             	let searchHash = p.name;
 
                 return this.branchTypes.value.includes(p.branch) &&

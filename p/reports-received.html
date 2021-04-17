@@ -52,12 +52,26 @@
                                 @fetch-records = "fetchReceivedProducts"
                             >
                             </dates-selection>
-                            
+
                             <br>
+                            <div class="w3-row w3-margin-bottom">
+                                <div class="w3-col l3">
+                                    <div class="field has-addons">
+                                        <p class="control">
+                                            <input class="input w3-border w3-border-black" v-model="searchInput" type="text" placeholder="Search Product" >
+                                        </p>
+                                        <p class="control">
+                                            <a class="button is-dark is-outlined" >
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
                             <reports-received-table
 
-                                :data = "receivedProducts"
+                                :data = "filteredReleasedProducts"
                                 :date-label = "dateLabel"
                                 :user-data = "userData"
 

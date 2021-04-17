@@ -76,6 +76,21 @@
                             
                             <br>
                             <br>
+                            <div class="w3-row w3-margin-bottom">
+                                <div class="w3-col l3">
+                                    <div class="field has-addons">
+                                        <p class="control">
+                                            <input class="input w3-border w3-border-black" v-model="searchInput" type="text" placeholder="Search Product" >
+                                        </p>
+                                        <p class="control">
+                                            <a class="button is-dark is-outlined" >
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
                             <div class="w3-row">
                                 <table class="table is-fullwidth is-hoverable is-striped w3-border w3-round ">
                                     <thead>
@@ -93,7 +108,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="product,index in productLib">
+                                        <tr v-for="product,index in filteredProductLib">
                                             <td>{{index+1}}</td>
                                             <td>{{product.name}}</td>
                                             <td>{{product.product_description}}</td>

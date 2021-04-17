@@ -14,9 +14,26 @@ var sc = new Vue({
 
 		dateLabel : "",
 		dateTo : "",
-		dateFrom : ""
+		dateFrom : "",
+		searchInput : ""
 		
 	},
+
+	computed: {
+
+		filteredReleasedProducts(){
+
+            return this.receivedProducts.filter(p => {
+
+            	let searchHash = p.name;
+
+                return searchHash.toUpperCase().includes(this.searchInput.toUpperCase());
+
+            });
+            
+        },
+
+    },
 
 	methods: {
 
@@ -63,7 +80,7 @@ var sc = new Vue({
 
             return (Number(n)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-        },
+        }
 
 	}
 

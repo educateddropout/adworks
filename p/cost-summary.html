@@ -78,6 +78,7 @@
                                                         <th class=" has-text-white ">Month</th>
                                                         <th class=" has-text-white ">Kamuning</th>
                                                         <th class=" has-text-white ">Makati</th>
+                                                        <th class=" has-text-white ">Dental Arts</th>
                                                         <th class=" has-text-white ">Total</th>
                                                     </tr>
                                                     
@@ -87,6 +88,7 @@
                                                         <th class="w3-right-align" colspan="2" >Total:</th>
                                                         <th>₱ {{convertMoney(totalKamuning)}}</th>
                                                         <th>₱ {{convertMoney(totalMakati)}}</th>
+                                                        <th>₱ {{convertMoney(totalLab)}}</th>
                                                         <th>₱ {{convertMoney(totalTotal)}}</th>
                                                     </tr>
                                                 </tfoot>
@@ -96,6 +98,7 @@
                                                         <td>{{n}}</td>
                                                         <td>₱ {{convertMoney(kData[index])}}</td>
                                                         <td>₱ {{convertMoney(mData[index])}}</td>
+                                                        <td>₱ {{convertMoney(lData[index])}}</td>
                                                         <td class="has-background-grey-light">₱ {{convertMoney(total[index])}}</td>
                                                     </tr>
                                                 </tbody>

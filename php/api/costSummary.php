@@ -22,6 +22,7 @@ try{
 
 	$resultsKamuning = $database->fetchCostSummary($numberOfMonths, "K");
 	$resultsMakati = $database->fetchCostSummary($numberOfMonths, "M");
+	$resultsDentalArts = $database->fetchCostSummary($numberOfMonths, "D");
 
 	$dateTime = new DateTime('first day of this month');
 	$dateTime->modify('-'.($numberOfMonths-1).' month');
@@ -40,6 +41,8 @@ try{
 
 	$kData = array();
 	$mData = array();
+	$lData = array();
+
 	$total = array();
 
 
@@ -58,9 +61,15 @@ try{
 	    	if($y == $rm['year'] && $m == $rm['month']) $mAmount = $rm['total_amount'];;
 	    }
 
+	    $lAmount = 0;
+	    foreach ($resultsDentalArts as $rm) {
+	    	if($y == $rm['year'] && $m == $rm['month']) $lAmount = $rm['total_amount'];;
+	    }
+
 	    array_push($kData, $kAmount);
 	    array_push($mData, $mAmount);
-	    array_push($total, $kAmount + $mAmount);
+	    array_push($lData, $lAmount);
+	    array_push($total, $kAmount + $mAmount + $lAmount);
 
 
 	}
@@ -68,6 +77,7 @@ try{
 	$returnValue["status"] = "SUCCESS";
 	$returnValue['message']['kData'] = $kData;
 	$returnValue['message']['mData'] = $mData;
+	$returnValue['message']['lData'] = $lData;
 	$returnValue['message']['total'] = $total;
 
 
