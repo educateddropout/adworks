@@ -40,7 +40,7 @@ function stockLib(){
                 { 'description' : 'OUT OF STOCK', 'value' : 1 },
                 { 'description' : 'LOW SUPPLIES', 'value' : 2 }, 
                 { 'description' : 'HIGH SUPPLIES', 'value' : 3 },
-		{ 'description' : 'NEGATIVES', 'value' : 4 }
+		          { 'description' : 'NEGATIVES', 'value' : 4 }
 
             ];
 
@@ -53,8 +53,8 @@ function branchLib(){
 
                 { 'description' : 'KAMUNING', 'value' : 'K' },
                 { 'description' : 'MAKATI', 'value' : 'M' }, 
-                { 'description' : 'DENTAL ARTS', 'value' : 'D' },
-                { 'description' : 'ECODENT', 'value' : 'E' }
+                { 'description' : 'DENTAL ARTS LABORATORY', 'value' : 'D' },
+                { 'description' : 'ECODENT DENTAL SUPPLIES', 'value' : 'E' }
 
             ];
 

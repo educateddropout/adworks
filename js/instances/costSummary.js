@@ -66,19 +66,19 @@ var sc = new Vue({
 			    data: {
 			        labels: this.nMonth,
 			        datasets: [{
-			            label: 'Kamuning Branch',
+			            label: 'KAMUNING',
 			            borderColor: 'rgb(255, 99, 132)',
 			            data: kData
 			        },{
-			            label: 'Makati Branch',
+			            label: 'MAKATI',
 			            borderColor: 'rgb(100, 70, 21)',
 			            data: mData
 			        },{
-			            label: 'Dental Arts',
+			            label: 'DENTAL ARTS LABORATORY',
 			            borderColor: 'rgb(0, 191, 255)',
 			            data: lData
 			        },{
-			            label: 'Ecodent',
+			            label: 'ECODENT DENTAL SUPPLIES',
 			            borderColor: 'rgb(150, 101, 230)',
 			            data: eData
 			        }]
